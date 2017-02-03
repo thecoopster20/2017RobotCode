@@ -1,5 +1,12 @@
 package org.usfirst.frc.team3602.robot;
 
+import com.ctre.CANTalon;
+
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -7,13 +14,35 @@ package org.usfirst.frc.team3602.robot;
  * floating around.
  */
 public class RobotMap {
-	// For example to map the left and right motors, you could define the
-	// following variables to use with your drivetrain subsystem.
-	// public static int leftMotor = 1;
-	// public static int rightMotor = 2;
+	
+	//Create variables for motors, sensors, etc.
+	
+	//Drive Motors and Sensors
+	public static CANTalon driveFrontLeftMotor;
+	public static CANTalon driveFrontRightMotor;
+	public static CANTalon driveRearLeftMotor;
+	public static CANTalon driveRearRightMotor;
+	public static RobotDrive driveTrain;
+	public static Encoder driveLeftEncoder;
+	public static Encoder driveRightEncoder;
+	public static ADXRS450_Gyro driveGyro;
+	
+	
+	//Assign motors and such their ports and other initial properties
+	public static void init() {
+		
+		//reserve CAN IDs 1-3 for RIO, PDB, and PCM
+		driveFrontLeftMotor = new CANTalon(4);
+		driveFrontRightMotor = new CANTalon(5);
+		driveRearLeftMotor = new CANTalon(6);
+		driveRearRightMotor = new CANTalon(7);
+		driveTrain = new RobotDrive(driveFrontLeftMotor, driveRearLeftMotor, driveFrontRightMotor, driveRearRightMotor);
+		
+		//one encoder has to be reversed to ensure both output for the same direction
+		driveLeftEncoder = new Encoder(0, 1, false, EncodingType.k4X);
+		driveRightEncoder = new Encoder(2, 3, true, EncodingType.k4X);
+		
+		driveGyro = new ADXRS450_Gyro();
+	}
 
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
 }
