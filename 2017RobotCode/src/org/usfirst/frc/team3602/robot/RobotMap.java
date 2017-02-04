@@ -4,6 +4,7 @@ import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
@@ -27,6 +28,9 @@ public class RobotMap {
 	public static Encoder driveRightEncoder;
 	public static ADXRS450_Gyro driveGyro;
 	
+	//gear holder actuator
+	public static Servo gearHolderActuator;
+	
 	
 	//Assign motors and such their ports and other initial properties
 	public static void init() {
@@ -43,6 +47,10 @@ public class RobotMap {
 		driveRightEncoder = new Encoder(2, 3, true, EncodingType.k4X);
 		
 		driveGyro = new ADXRS450_Gyro();
+		
+		//set the Servo to use 1ms and 2ms PWM widths for min and max position
+		gearHolderActuator = new Servo(0);
+		gearHolderActuator.setBounds(2, 0, 0, 0, 1);
 	}
 
 }
