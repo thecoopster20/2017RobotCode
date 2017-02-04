@@ -19,12 +19,23 @@ public class DriveTrain extends Subsystem {
 	private final Encoder rightEncoder = RobotMap.driveRightEncoder;
 	private final ADXRS450_Gyro gyro = RobotMap.driveGyro;
 	
+	private final double driveWheelDiameter = 7;
+	private final double encoderCountsPerRev = 360;
+	private final double pi = Math.PI;
+	private final double distPerEncoderRev = (driveWheelDiameter * pi) / encoderCountsPerRev;
+	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    }
+    
+    public DriveTrain() {
+    	leftEncoder.setDistancePerPulse(distPerEncoderRev);
+    	rightEncoder.setDistancePerPulse(distPerEncoderRev);
+    	
     }
     
     public void driverControl(Joystick joy) {
@@ -44,7 +55,7 @@ public class DriveTrain extends Subsystem {
     }
     
     public double getDriveRate() {
-    	//return the average of the two encoder's rates
+    	//return the average of the two encoder's rates in feet per second
     	double avgRate = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
     	return avgRate;
     }
@@ -63,10 +74,10 @@ public class DriveTrain extends Subsystem {
     
     public void log() {
     	//write sensor values and other exciting information to the dash
-    	SmartDashboard.putNumber("Left Encoder Distance", leftEncoder.getDistance());
-    	SmartDashboard.putNumber("Right Encoder Distance", rightEncoder.getDistance());
-    	SmartDashboard.putNumber("Left Encoder Rate", leftEncoder.getRate());
-    	SmartDashboard.putNumber("Right Encoder Rate", rightEncoder.getRate());
+    	SmartDashboard.putNumber("Left Encoder Distance(in)", leftEncoder.getDistance());
+    	SmartDashboard.putNumber("Right Encoder Distance(in)", rightEncoder.getDistance());
+    	SmartDashboard.putNumber("Left Encoder Rate(in/s)", leftEncoder.getRate());
+    	SmartDashboard.putNumber("Right Encoder Rate(in/s)", rightEncoder.getRate());
     	SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
     }
 }

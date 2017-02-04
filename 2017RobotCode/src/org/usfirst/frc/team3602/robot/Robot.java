@@ -1,15 +1,21 @@
 
 package org.usfirst.frc.team3602.robot;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team3602.robot.commands.ExampleCommand;
-import org.usfirst.frc.team3602.robot.subsystems.ExampleSubsystem;
+import org.opencv.core.Mat;
+import org.usfirst.frc.team3602.robot.subsystems.DriveTrain;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -20,11 +26,13 @@ import org.usfirst.frc.team3602.robot.subsystems.ExampleSubsystem;
  */
 public class Robot extends IterativeRobot {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	public static DriveTrain driveTrain;
 	public static OI oi;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
+	
+	public boolean switcherButton = false;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -33,13 +41,57 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		RobotMap.init();
+		driveTrain = new DriveTrain();
 		
 		
 		
 		oi = new OI();
-		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
+		SmartDashboard.putData(Scheduler.getInstance());
+		SmartDashboard.putData(driveTrain);
+		//SmartDashboard.putData("Command Name", myCommandHere);
+		
+		Thread t = new Thread(() -> {
+    		
+    			boolean rearCameraAllowed = false;	
+    		
+    			UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
+    			frontCamera.setResolution(320, 240);
+    			frontCamera.setFPS(30);
+            
+    			UsbCamera rearCamera = CameraServer.getInstance().startAutomaticCapture(1);
+    			rearCamera.setResolution(320, 240);
+    			rearCamera.setFPS(30);
+            
+    			CvSink cvSink1 = CameraServer.getInstance().getVideo(rearCamera);
+    			CvSink cvSink2 = CameraServer.getInstance().getVideo(frontCamera);
+    			CvSource outputStream = CameraServer.getInstance().putVideo("Switcher", 640, 480);
+            
+    			Mat image = new Mat();
+            
+    			while(!Thread.interrupted()) {
+            	
+    				if(switcherButton) {
+    					rearCameraAllowed = !rearCameraAllowed;
+    					Timer.delay(1);
+    				}
+            	
+    				if(rearCameraAllowed || switcherButton ){
+    					cvSink2.setEnabled(false);
+    					cvSink1.setEnabled(true);
+    					cvSink1.grabFrame(image);
+    				} else{
+    					cvSink1.setEnabled(false);
+    					cvSink2.setEnabled(true);
+    					cvSink2.grabFrame(image);     
+    				}
+                
+    				outputStream.putFrame(image);
+    			}
+            
+        	});
+        	t.start();
 	}
 
 	/**
@@ -55,6 +107,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		log();
 	}
 
 	/**
@@ -90,6 +143,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		log();
 	}
 
 	@Override
@@ -108,6 +162,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		log();
 	}
 
 	/**
@@ -116,5 +171,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+	}
+	
+	public void log() {
+		driveTrain.log();
 	}
 }
