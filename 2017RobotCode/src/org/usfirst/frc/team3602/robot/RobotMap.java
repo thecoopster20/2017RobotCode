@@ -5,6 +5,7 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
@@ -27,6 +28,7 @@ public class RobotMap {
 	public static Encoder driveLeftEncoder;
 	public static Encoder driveRightEncoder;
 	public static ADXRS450_Gyro driveGyro;
+	public static Spark lightSwitchController;
 	
 	//gear holder actuator
 	public static Servo gearHolderActuator;
@@ -46,16 +48,18 @@ public class RobotMap {
 		driveTrain = new RobotDrive(driveFrontLeftMotor, driveRearLeftMotor, driveFrontRightMotor, driveRearRightMotor);
 		
 		//one encoder has to be reversed to ensure both output for the same direction
-		driveLeftEncoder = new Encoder(0, 1, false, EncodingType.k4X);
-		driveRightEncoder = new Encoder(2, 3, true, EncodingType.k4X);
+		driveLeftEncoder = new Encoder(3, 4, false, EncodingType.k4X);
+		driveRightEncoder = new Encoder(1, 2, true, EncodingType.k4X);
 		
 		driveGyro = new ADXRS450_Gyro();
 		
 		//set the Servo to use 1ms and 2ms PWM widths for min and max position
-		gearHolderActuator = new Servo(0);
+		gearHolderActuator = new Servo(1);
 		gearHolderActuator.setBounds(2, 0, 0, 0, 1);
 		
 		shooterMotor = new CANTalon(8);
+		
+		lightSwitchController = new Spark(0);
 	}
 
 }

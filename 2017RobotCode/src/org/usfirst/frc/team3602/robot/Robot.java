@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.opencv.core.Mat;
 import org.usfirst.frc.team3602.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3602.robot.subsystems.GearHolder;
+import org.usfirst.frc.team3602.robot.subsystems.LightSwitch;
 import org.usfirst.frc.team3602.robot.subsystems.Shooter;
 
 
@@ -32,6 +33,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static GearHolder gearHolder;
 	public static Shooter shooter;
+	public static LightSwitch lightSwitch;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -48,6 +50,7 @@ public class Robot extends IterativeRobot {
 		driveTrain = new DriveTrain();
 		gearHolder = new GearHolder();
 		shooter = new Shooter();
+		lightSwitch = new LightSwitch();
 		
 		
 		oi = new OI();
@@ -57,11 +60,11 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(driveTrain);
 		SmartDashboard.putData(gearHolder);
 		SmartDashboard.putData(shooter);
+		SmartDashboard.putData(lightSwitch);
 		//SmartDashboard.putData("Command Name", myCommandHere);
 		
 		Thread t = new Thread(() -> {
 			
-			    boolean switcherButton = oi.getGamepad().getRawButton(9);
     			rearCameraAllowed = false;	
     		
     			UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
@@ -80,7 +83,7 @@ public class Robot extends IterativeRobot {
             
     			while(!Thread.interrupted()) {
             	
-    				if(switcherButton) {
+    				if(oi.getGamepad().getRawButton(7)) {
     					rearCameraAllowed = !rearCameraAllowed;
     					Timer.delay(1);
     				}
@@ -109,13 +112,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		log();
+		lightSwitch.lightOff();
 	}
 
 	/**
@@ -152,6 +156,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		log();
+		lightSwitch.lightOn();
 	}
 
 	@Override
@@ -171,6 +176,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		log();
+		lightSwitch.lightOn();
 	}
 
 	/**
