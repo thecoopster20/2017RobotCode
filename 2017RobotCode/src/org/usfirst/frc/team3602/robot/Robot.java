@@ -103,6 +103,8 @@ public class Robot extends IterativeRobot {
             
         	});
         	t.start();
+        	
+        	gearHolder.gearHolderOut();
 	}
 
 	/**

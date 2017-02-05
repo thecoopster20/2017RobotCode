@@ -29,6 +29,10 @@ public class GearHolder extends Subsystem {
     	actuator.setSpeed(-1);
     }
     
+    public double getHolderPos() {
+    	return actuator.getPosition();
+    }
+    
     public void log() {
     	SmartDashboard.putNumber("Gear Holder Position", actuator.getPosition());
     }

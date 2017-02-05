@@ -46,6 +46,7 @@ public class RobotMap {
 		driveRearLeftMotor = new CANTalon(6);
 		driveRearRightMotor = new CANTalon(7);
 		driveTrain = new RobotDrive(driveFrontLeftMotor, driveRearLeftMotor, driveFrontRightMotor, driveRearRightMotor);
+		driveTrain.setSensitivity(0.5);
 		
 		//one encoder has to be reversed to ensure both output for the same direction
 		driveLeftEncoder = new Encoder(3, 4, false, EncodingType.k4X);

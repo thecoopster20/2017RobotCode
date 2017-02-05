@@ -22,7 +22,7 @@ public class DriveTrain extends Subsystem {
 	private final Encoder rightEncoder = RobotMap.driveRightEncoder;
 	private final ADXRS450_Gyro gyro = RobotMap.driveGyro;
 	
-	private final double driveWheelDiameter = 7;
+	private final double driveWheelDiameter = 4;
 	private final double encoderCountsPerRev = 360;
 	private final double pi = Math.PI;
 	private final double distPerEncoderRev = (driveWheelDiameter * pi) / encoderCountsPerRev;
@@ -81,7 +81,7 @@ public class DriveTrain extends Subsystem {
     	drive.tankDrive(0, 0);
     	leftEncoder.reset();
     	rightEncoder.reset();
-    	gyro.reset();
+    	//gyro.reset();
     }
     
     public void log() {
