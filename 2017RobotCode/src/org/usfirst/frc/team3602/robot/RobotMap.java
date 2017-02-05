@@ -31,6 +31,9 @@ public class RobotMap {
 	//gear holder actuator
 	public static Servo gearHolderActuator;
 	
+	//shooter motor
+	public static CANTalon shooterMotor;
+	
 	
 	//Assign motors and such their ports and other initial properties
 	public static void init() {
@@ -51,6 +54,8 @@ public class RobotMap {
 		//set the Servo to use 1ms and 2ms PWM widths for min and max position
 		gearHolderActuator = new Servo(0);
 		gearHolderActuator.setBounds(2, 0, 0, 0, 1);
+		
+		shooterMotor = new CANTalon(8);
 	}
 
 }

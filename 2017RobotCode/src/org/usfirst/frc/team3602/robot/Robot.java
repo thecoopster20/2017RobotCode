@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.opencv.core.Mat;
 import org.usfirst.frc.team3602.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team3602.robot.subsystems.GearHolder;
+import org.usfirst.frc.team3602.robot.subsystems.Shooter;
 
 
 /**
@@ -28,11 +30,13 @@ public class Robot extends IterativeRobot {
 
 	public static DriveTrain driveTrain;
 	public static OI oi;
+	public static GearHolder gearHolder;
+	public static Shooter shooter;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	
-	public boolean switcherButton = false;
+	public static boolean rearCameraAllowed;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -42,7 +46,8 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		RobotMap.init();
 		driveTrain = new DriveTrain();
-		
+		gearHolder = new GearHolder();
+		shooter = new Shooter();
 		
 		
 		oi = new OI();
@@ -50,11 +55,14 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto mode", chooser);
 		SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putData(driveTrain);
+		SmartDashboard.putData(gearHolder);
+		SmartDashboard.putData(shooter);
 		//SmartDashboard.putData("Command Name", myCommandHere);
 		
 		Thread t = new Thread(() -> {
-    		
-    			boolean rearCameraAllowed = false;	
+			
+			    boolean switcherButton = oi.getGamepad().getRawButton(9);
+    			rearCameraAllowed = false;	
     		
     			UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
     			frontCamera.setResolution(320, 240);
@@ -77,7 +85,7 @@ public class Robot extends IterativeRobot {
     					Timer.delay(1);
     				}
             	
-    				if(rearCameraAllowed || switcherButton ){
+    				if(rearCameraAllowed){
     					cvSink2.setEnabled(false);
     					cvSink1.setEnabled(true);
     					cvSink1.grabFrame(image);
@@ -175,5 +183,7 @@ public class Robot extends IterativeRobot {
 	
 	public void log() {
 		driveTrain.log();
+		gearHolder.log();
+		shooter.log();
 	}
 }
