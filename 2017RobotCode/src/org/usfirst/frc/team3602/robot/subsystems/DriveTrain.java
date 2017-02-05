@@ -1,6 +1,8 @@
 package org.usfirst.frc.team3602.robot.subsystems;
 
+import org.usfirst.frc.team3602.robot.Robot;
 import org.usfirst.frc.team3602.robot.RobotMap;
+import org.usfirst.frc.team3602.robot.commands.DriverControl;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
@@ -13,7 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class DriveTrain extends Subsystem {
-
+	
+	//give the actuators/sensors from RobotMap a shorthand name
 	private final RobotDrive drive = RobotMap.driveTrain;
 	private final Encoder leftEncoder = RobotMap.driveLeftEncoder;
 	private final Encoder rightEncoder = RobotMap.driveRightEncoder;
@@ -30,6 +33,7 @@ public class DriveTrain extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new DriverControl());
     }
     
     public DriveTrain() {
@@ -39,8 +43,14 @@ public class DriveTrain extends Subsystem {
     }
     
     public void driverControl(Joystick joy) {
-    	//control the drive with a joystick
-    	drive.arcadeDrive(joy.getRawAxis(1), joy.getRawAxis(4), false);
+    	//control the drive with a joystick and
+    	//invert controls if the rear camera is active
+    	if(Robot.rearCameraAllowed == true) {
+    		drive.arcadeDrive(-joy.getRawAxis(1), -joy.getRawAxis(4));
+    	}
+    	else {
+    		drive.arcadeDrive(joy.getRawAxis(1), joy.getRawAxis(4));
+    	}
     }
     
     public void manualControl(double leftSpeed, double rightSpeed) {
@@ -50,14 +60,16 @@ public class DriveTrain extends Subsystem {
     
     public double getDriveDistance() {
     	//return the average of the two encoder's distances
+    	//take the absolute value to ensure no negative values
     	double avgDistance = (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
-    	return avgDistance;		
+    	return Math.abs(avgDistance);		
     }
     
     public double getDriveRate() {
     	//return the average of the two encoder's rates in feet per second
+    	//return the absolute value to ensure no negative values
     	double avgRate = (leftEncoder.getRate() + rightEncoder.getRate()) / 2;
-    	return avgRate;
+    	return Math.abs(avgRate);
     }
     
     public double getDriveHeading() {
@@ -76,8 +88,10 @@ public class DriveTrain extends Subsystem {
     	//write sensor values and other exciting information to the dash
     	SmartDashboard.putNumber("Left Encoder Distance(in)", leftEncoder.getDistance());
     	SmartDashboard.putNumber("Right Encoder Distance(in)", rightEncoder.getDistance());
+    	SmartDashboard.putNumber("Average Encoder Distance", getDriveDistance());
     	SmartDashboard.putNumber("Left Encoder Rate(in/s)", leftEncoder.getRate());
     	SmartDashboard.putNumber("Right Encoder Rate(in/s)", rightEncoder.getRate());
+    	SmartDashboard.putNumber("Average Encoder Rate", getDriveRate());
     	SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
     }
 }
