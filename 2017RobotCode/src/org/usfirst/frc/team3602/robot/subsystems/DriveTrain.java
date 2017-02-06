@@ -31,6 +31,7 @@ public class DriveTrain extends Subsystem {
     // here. Call these from Commands.
 
     public void initDefaultCommand() {
+    	
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     	setDefaultCommand(new DriverControl());
@@ -46,10 +47,10 @@ public class DriveTrain extends Subsystem {
     	//control the drive with a joystick and
     	//invert controls if the rear camera is active
     	if(Robot.rearCameraAllowed == true) {
-    		drive.arcadeDrive(-joy.getRawAxis(1), -joy.getRawAxis(4));
+    		drive.arcadeDrive(joy.getRawAxis(1), -joy.getRawAxis(4));
     	}
     	else {
-    		drive.arcadeDrive(joy.getRawAxis(1), joy.getRawAxis(4));
+    		drive.arcadeDrive(-joy.getRawAxis(1), joy.getRawAxis(4));
     	}
     }
     

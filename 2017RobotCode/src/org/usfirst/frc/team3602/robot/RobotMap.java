@@ -29,6 +29,8 @@ public class RobotMap {
 	public static Encoder driveRightEncoder;
 	public static ADXRS450_Gyro driveGyro;
 	public static Spark lightSwitchController;
+	public static CANTalon ballPickupMotor;
+	public static CANTalon robotLiftMotor;
 	
 	//gear holder actuator
 	public static Servo gearHolderActuator;
@@ -61,6 +63,10 @@ public class RobotMap {
 		shooterMotor = new CANTalon(8);
 		
 		lightSwitchController = new Spark(0);
+		
+		ballPickupMotor = new CANTalon(9);
+		
+		robotLiftMotor = new CANTalon(10);
 	}
 
 }

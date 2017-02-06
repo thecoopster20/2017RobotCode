@@ -14,9 +14,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.opencv.core.Mat;
+import org.usfirst.frc.team3602.robot.subsystems.BallPickup;
 import org.usfirst.frc.team3602.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3602.robot.subsystems.GearHolder;
 import org.usfirst.frc.team3602.robot.subsystems.LightSwitch;
+import org.usfirst.frc.team3602.robot.subsystems.RobotLifter;
 import org.usfirst.frc.team3602.robot.subsystems.Shooter;
 
 
@@ -34,6 +36,8 @@ public class Robot extends IterativeRobot {
 	public static GearHolder gearHolder;
 	public static Shooter shooter;
 	public static LightSwitch lightSwitch;
+	public static BallPickup ballPickup;
+	public static RobotLifter robotLifter;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -51,7 +55,8 @@ public class Robot extends IterativeRobot {
 		gearHolder = new GearHolder();
 		shooter = new Shooter();
 		lightSwitch = new LightSwitch();
-		
+		ballPickup = new BallPickup();
+		robotLifter = new RobotLifter();
 		
 		oi = new OI();
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -61,12 +66,15 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(gearHolder);
 		SmartDashboard.putData(shooter);
 		SmartDashboard.putData(lightSwitch);
-		//SmartDashboard.putData("Command Name", myCommandHere);
+		SmartDashboard.putData(ballPickup);
+		SmartDashboard.putData(robotLifter);
 		
+		//creates a separate thread for the camera switcher to run on
 		Thread t = new Thread(() -> {
 			
     			rearCameraAllowed = false;	
     		
+    			//creates a camera object and sets the resolution and FPS
     			UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
     			frontCamera.setResolution(320, 240);
     			frontCamera.setFPS(30);
@@ -75,12 +83,16 @@ public class Robot extends IterativeRobot {
     			rearCamera.setResolution(320, 240);
     			rearCamera.setFPS(30);
             
+    			//creates two sinks that allow us to grab the images from each camera
+    			//then creates a switcher stream that we feed whatever image we want to
     			CvSink cvSink1 = CameraServer.getInstance().getVideo(rearCamera);
     			CvSink cvSink2 = CameraServer.getInstance().getVideo(frontCamera);
     			CvSource outputStream = CameraServer.getInstance().putVideo("Switcher", 640, 480);
             
+    			//creates a new mat for image capture
     			Mat image = new Mat();
             
+    			//switches camera feed on a button press or the manual setting of the rearCameraAllowed boolean
     			while(!Thread.interrupted()) {
             	
     				if(oi.getGamepad().getRawButton(7)) {
@@ -97,13 +109,15 @@ public class Robot extends IterativeRobot {
     					cvSink2.setEnabled(true);
     					cvSink2.grabFrame(image);     
     				}
-                
+    				
+    				//outputs the desired image to the switcher
     				outputStream.putFrame(image);
     			}
             
         	});
         	t.start();
         	
+        	//sets the default position for the gear holder actuator
         	gearHolder.gearHolderOut();
 	}
 
@@ -189,6 +203,7 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 	}
 	
+	//calls each subsystem's log function for dash writing functionality
 	public void log() {
 		driveTrain.log();
 		gearHolder.log();
