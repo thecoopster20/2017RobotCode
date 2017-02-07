@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.HashMap;
 
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 import org.opencv.core.*;
@@ -26,8 +25,6 @@ import org.opencv.objdetect.*;
 * @author GRIP
 */
 public class GripPipeline implements VisionPipeline {
-	
-	private double centerX = 0.0;
 
 	//Outputs
 	private Mat rgbThresholdOutput = new Mat();
@@ -73,10 +70,6 @@ public class GripPipeline implements VisionPipeline {
 		// Step Convex_Hulls0:
 		ArrayList<MatOfPoint> convexHullsContours = filterContoursOutput;
 		convexHulls(convexHullsContours, convexHullsOutput);
-		
-		Rect r = Imgproc.boundingRect(filterContoursOutput().get(0)); 
-        centerX = r.x + (r.width / 2);
-        NetworkTable.getTable("GRIP").putNumber("centerX", centerX);
 
 	}
 
