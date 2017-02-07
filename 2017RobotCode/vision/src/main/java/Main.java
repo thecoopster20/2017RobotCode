@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-
 import edu.wpi.first.wpilibj.networktables.*;
 import edu.wpi.first.wpilibj.tables.*;
 import edu.wpi.cscore.*;
@@ -18,7 +17,6 @@ public class Main {
     NetworkTable.setTeam(3602);
 
     NetworkTable.initialize();
-   
 
 
     // This is the network port you want to stream the raw received image to
@@ -38,7 +36,7 @@ public class Main {
     // HTTP Camera
     
     // This is our camera name from the robot. this can be set in your robot code with the following command
-    //CameraServer.getInstance().startAutomaticCapture("YourCameraNameHere");
+    // CameraServer.getInstance().startAutomaticCapture("YourCameraNameHere");
     // "USB Camera 0" is the default if no string is specified
     String cameraName = "Switcher";
     HttpCamera camera = setHttpCamera(cameraName, inputStream);
@@ -46,7 +44,7 @@ public class Main {
     // be found using NetworkTables to connect to. Create an HttpCamera by giving a specified stream
     // Note if this happens, no restream will be created
     if (camera == null) {
-      camera = new HttpCamera("Coprocessor Camera", "http://roborio-3602-frc.local:1183/?action=stream");
+      camera = new HttpCamera("CoprocessorCamera", "http://roborio-3602-frc.local:1183/?action=stream");
       inputStream.setSource(camera);
     }
     
@@ -81,7 +79,7 @@ public class Main {
     Mat inputImage = new Mat();
     Mat hsv = new Mat();
     
-    GripPipeline filterImage = new GripPipeline();
+    GripPipeline proc = new GripPipeline();
 
     // Infinitely process image
     while (true) {
@@ -92,8 +90,7 @@ public class Main {
 
       // Below is where you would do your OpenCV operations on the provided image
       // The sample below just changes color source to HSV
-      
-      filterImage.process(inputImage);
+      proc.process(inputImage);
 
       // Here is where you would write a processed image that you want to restreams
       // This will most likely be a marked up image of what the camera sees
@@ -147,5 +144,4 @@ public class Main {
     server.setSource(camera);
     return camera;
   }
-
 }

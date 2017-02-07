@@ -1,4 +1,6 @@
+
 import java.io.File;
+
 
 
 import java.io.FileWriter;
@@ -76,11 +78,13 @@ public class GripPipeline implements VisionPipeline {
 		convexHulls(convexHullsContours, convexHullsOutput);
 		
 		// Drawing bounding rectangle
+		/*
 		if(!convexHullsOutput.isEmpty()) {
 			Rect r = Imgproc.boundingRect(convexHullsOutput.get(0));
 			centerX = r.x + (r.width / 2);
 			NetworkTable.getTable("GRIP").putNumber("centerX", centerX);
 		}
+		*/
 
 	}
 
