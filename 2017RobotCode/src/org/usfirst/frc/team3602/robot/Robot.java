@@ -80,11 +80,11 @@ public class Robot extends IterativeRobot {
     		
     			//creates a camera object and sets the resolution and FPS
     			UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
-    			frontCamera.setResolution(320, 240);
+    			frontCamera.setResolution(640, 480);
     			frontCamera.setFPS(30);
             
     			UsbCamera rearCamera = CameraServer.getInstance().startAutomaticCapture(1);
-    			rearCamera.setResolution(320, 240);
+    			rearCamera.setResolution(640, 480);
     			rearCamera.setFPS(30);
             
     			//creates two sinks that allow us to grab the images from each camera

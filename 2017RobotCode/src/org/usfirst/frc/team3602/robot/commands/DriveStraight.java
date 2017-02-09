@@ -18,7 +18,7 @@ public class DriveStraight extends Command {
 	private final double kI = 0;
 	private final double kD = 0;
 
-	public DriveStraight(double distance, boolean invertDirection) {
+	public DriveStraight(double distance) {
 		requires(Robot.driveTrain);
 		pid = new PIDController(kP, kI, kD, new PIDSource() {
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
@@ -40,7 +40,7 @@ public class DriveStraight extends Command {
 		}, new PIDOutput() {
 			@Override
 			public void pidWrite(double d) {
-				if(invertDirection == true) {
+				if(distance < 0) {
 					Robot.driveTrain.manualControl(-d, -d);
 				}
 				else {

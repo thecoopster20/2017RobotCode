@@ -59,6 +59,10 @@ public class DriveTrain extends Subsystem {
     	drive.tankDrive(leftSpeed, rightSpeed);
     }
     
+    public void turn(double turnSpeed) {
+    	drive.arcadeDrive(0, turnSpeed);
+    }
+    
     public double getDriveDistance() {
     	//return the average of the two encoder's distances
     	//take the absolute value to ensure no negative values
