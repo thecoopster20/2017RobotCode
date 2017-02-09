@@ -40,7 +40,7 @@ public class GripPipeline {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
 	
-	private double centerX = 0;
+	
 
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
@@ -76,16 +76,6 @@ public class GripPipeline {
 		// Step Convex_Hulls0:
 		ArrayList<MatOfPoint> convexHullsContours = filterContoursOutput;
 		convexHulls(convexHullsContours, convexHullsOutput);
-		
-		// Drawing bounding rectangle
-		
-		if(!convexHullsOutput.isEmpty()) {
-			Rect r = Imgproc.boundingRect(convexHullsOutput.get(0));
-			centerX = r.x + (r.width / 2);
-			NetworkTable.getTable("GRIP").putNumber("centerX", centerX);
-		}
-		
-
 	}
 
 	/**
