@@ -57,12 +57,12 @@ public class RobotMap {
 		driveGyro = new ADXRS450_Gyro();
 		
 		//set the Servo to use 1ms and 2ms PWM widths for min and max position
-		gearHolderActuator = new Servo(1);
+		gearHolderActuator = new Servo(0);
 		gearHolderActuator.setBounds(2, 0, 0, 0, 1);
 		
 		shooterMotor = new CANTalon(8);
 		
-		lightSwitchController = new Spark(0);
+		lightSwitchController = new Spark(1);
 		
 		ballPickupMotor = new CANTalon(9);
 		

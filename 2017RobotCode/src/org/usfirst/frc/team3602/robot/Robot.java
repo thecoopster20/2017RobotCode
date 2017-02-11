@@ -18,6 +18,9 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team3602.robot.commands.CenterGearAuto;
+import org.usfirst.frc.team3602.robot.commands.LeftGearAuto;
+import org.usfirst.frc.team3602.robot.commands.RightGearAuto;
 import org.usfirst.frc.team3602.robot.subsystems.BallPickup;
 import org.usfirst.frc.team3602.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3602.robot.subsystems.GearHolder;
@@ -63,8 +66,14 @@ public class Robot extends IterativeRobot {
 		robotLifter = new RobotLifter();
 		
 		oi = new OI();
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		
+		//creates an auto selector button and adds the modes
+		SmartDashboard.putData("Auto Mode", chooser);
+		chooser.addObject("Center Gear", new CenterGearAuto());
+		chooser.addObject("Left Gear", new LeftGearAuto());
+		chooser.addObject("Right Gear", new RightGearAuto());
+		
+		//outputs all of the subsystems to the dash
 		SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putData(driveTrain);
 		SmartDashboard.putData(gearHolder);
@@ -141,6 +150,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		log();
 		lightSwitch.lightOff();
+		driveTrain.reset();
 	}
 
 	/**
@@ -157,13 +167,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
-
+		
 		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
+		 String autoSelected = SmartDashboard.getString("Auto Selector",
+		 "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
+		  = new MyAutoCommand(); break; case "Default Auto": default:
+		 autonomousCommand = new ExampleCommand(); break; }
 		 */
+		 
 
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)

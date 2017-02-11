@@ -9,7 +9,7 @@ public class LeftGearAuto extends CommandGroup {
 	
 	private final double distanceUntilTurn = 42;
 	private final double turnTilVisionAngle = 20;
-	private final double backupDistance = 20;
+	private final double backupDistance = -20;
 
     public LeftGearAuto() {
         

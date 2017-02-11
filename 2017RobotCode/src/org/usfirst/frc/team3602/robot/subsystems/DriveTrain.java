@@ -86,7 +86,7 @@ public class DriveTrain extends Subsystem {
     	drive.tankDrive(0, 0);
     	leftEncoder.reset();
     	rightEncoder.reset();
-    	//gyro.reset();
+    	gyro.reset();
     }
     
     public void log() {
@@ -97,7 +97,7 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putNumber("Left Encoder Rate(in/s)", leftEncoder.getRate());
     	SmartDashboard.putNumber("Right Encoder Rate(in/s)", rightEncoder.getRate());
     	SmartDashboard.putNumber("Average Encoder Rate", getDriveRate());
-    	SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
+    	SmartDashboard.putNumber("Gyro Angle", (int)gyro.getAngle());
     }
 }
 

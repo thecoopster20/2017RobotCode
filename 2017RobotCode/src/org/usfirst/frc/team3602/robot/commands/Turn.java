@@ -43,16 +43,16 @@ public class Turn extends Command {
     		public void pidWrite(double d) {
     			
     			if(angle > 0) {
-    				Robot.driveTrain.manualControl(d, -d);
+    				Robot.driveTrain.turn(d);
     			}
     			
     			else {
-    				Robot.driveTrain.manualControl(-d, d);
+    				Robot.driveTrain.turn(-d);
     			}
     				
     		}
     	});
-    	pid.setOutputRange(0, .75);
+    	pid.setOutputRange(-0.75, 0.75);
     	pid.setAbsoluteTolerance(1);
     	pid.setSetpoint(angle);
     }
