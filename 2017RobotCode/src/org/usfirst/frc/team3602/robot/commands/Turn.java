@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class Turn extends Command {
 	private PIDController pid;
 	
-	private final double kP = 0.05;
+	private final double kP = .05;
 	private final double kI = 0;
 	private final double kD = 0;
 
