@@ -131,8 +131,7 @@ public class Robot extends IterativeRobot {
         	});
         	t.start();
         	
-        	//sets the default position for the gear holder actuator
-        	gearHolder.gearHolderOut();
+        	
 	}
 
 	/**

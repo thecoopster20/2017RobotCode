@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 /**
@@ -33,7 +34,9 @@ public class RobotMap {
 	public static CANTalon robotLiftMotor;
 	
 	//gear holder actuator
-	public static Servo gearHolderActuator;
+	public static CANTalon gearHolderScrew;
+	public static DigitalInput gearHolderInSwitch;
+	public static DigitalInput gearHolderOutSwitch;
 	
 	//shooter motor
 	public static CANTalon shooterMotor;
@@ -56,9 +59,9 @@ public class RobotMap {
 		
 		driveGyro = new ADXRS450_Gyro();
 		
-		//set the Servo to use 1ms and 2ms PWM widths for min and max position
-		gearHolderActuator = new Servo(0);
-		gearHolderActuator.setBounds(2, 0, 0, 0, 1);
+		gearHolderScrew = new CANTalon(11);
+		gearHolderInSwitch = new DigitalInput(5);
+		gearHolderOutSwitch = new DigitalInput(6);
 		
 		shooterMotor = new CANTalon(8);
 		

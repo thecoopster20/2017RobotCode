@@ -2,7 +2,9 @@ package org.usfirst.frc.team3602.robot.subsystems;
 
 import org.usfirst.frc.team3602.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Servo;
+import com.ctre.CANTalon;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -11,7 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class GearHolder extends Subsystem {
 	
-	private final Servo actuator = RobotMap.gearHolderActuator;
+	private final CANTalon screw = RobotMap.gearHolderScrew;
+	private final DigitalInput inSwitch = RobotMap.gearHolderInSwitch;
+	private final DigitalInput outSwitch = RobotMap.gearHolderOutSwitch;
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -22,19 +26,26 @@ public class GearHolder extends Subsystem {
     }
     
     public void gearHolderOut() {
-    	actuator.setSpeed(1);
+    	screw.set(1);
     }
     
     public void gearHolderIn() {
-    	actuator.setSpeed(-1);
+    	screw.set(-1);
     }
     
-    public double getHolderPos() {
-    	return actuator.getPosition();
+    public boolean getInSwitchState() {
+    	return inSwitch.get();
+    }
+    
+    public boolean getOutSwitchState() {
+    	return outSwitch.get();
+    }
+    
+    public void stopScrew() {
+    	screw.set(0);
     }
     
     public void log() {
-    	SmartDashboard.putNumber("Gear Holder Position", actuator.getPosition());
     }
 }
 

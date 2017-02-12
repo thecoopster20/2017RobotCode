@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3602.robot;
 
 import org.usfirst.frc.team3602.robot.commands.DropGear;
-import org.usfirst.frc.team3602.robot.commands.GearActuatorTimed;
+import org.usfirst.frc.team3602.robot.commands.GearHolderToggle;
 import org.usfirst.frc.team3602.robot.commands.ResetDriveSensors;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -18,9 +18,7 @@ public class OI {
 	private Joystick auxController = new Joystick(1);
 	
 	public OI() {
-		
-		SmartDashboard.putData("Drop Gear", new DropGear());
-		SmartDashboard.putData("Gear Toggle", new GearActuatorTimed(2.5));
+		SmartDashboard.putData("Gear Toggle", new GearHolderToggle());
 		SmartDashboard.putData("Reset Drive Sensors", new ResetDriveSensors());
 		
 	}
