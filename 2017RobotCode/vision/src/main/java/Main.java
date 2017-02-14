@@ -1,17 +1,21 @@
 import java.util.ArrayList;
 
-import GripPipeline;
 import edu.wpi.first.wpilibj.networktables.*;
 import edu.wpi.first.wpilibj.tables.*;
 import edu.wpi.cscore.*;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 public class Main {
 	
-	private static double centerX = 0;
-	private static double centerY = 0;
+	private static double centerXOne = 0;
+	private static double centerYOne = 0;
+	private static double centerXTwo = 0;
+	private static double centerYTwo = 0;
+	private static double centerXAvg = 0;
+	private static double centerYAvg = 0;
 	private static double area = 0;
 	
   public static void main(String[] args) {
@@ -95,6 +99,7 @@ public class Main {
       // Just skip and continue
       long frameTime = imageSink.grabFrame(inputImage);
       if (frameTime == 0) continue;
+      imageSink.grabFrame(inputImage);
 
       // Below is where you would do your OpenCV operations on the provided image
       // The sample below just changes color source to HSV
@@ -103,13 +108,18 @@ public class Main {
       if(!proc.convexHullsOutput().isEmpty()) {
 			Rect r1 = Imgproc.boundingRect(proc.convexHullsOutput().get(0));
 			Rect r2 = Imgproc.boundingRect(proc.convexHullsOutput().get(1));
-			rect c = Imgproc.rectangle(inputImage, r1.tl(), r2.br(), new Scalar(0, 0, 5));
-			centerX = c.x + (c.width / 2);
-			centerY = c.y + (c.height/2);
-			area = c.y * c.x;
-			NetworkTable.getTable("GRIP").putNumber("centerX", centerX);
-			NetworkTable.getTable("GRIP").putNumber("centerY", centerY);
+
+			centerXOne = r1.x + (r1.width / 2);
+			centerYOne = r1.y + (r1.height/2);
+			centerXTwo = r2.x + (r2.width/2);
+			centerYTwo = r2.y + (r2.height/2);
+			centerXAvg = (centerXOne + centerXTwo)/2;
+			centerYAvg = (centerYOne + centerYTwo)/2;
+			area = (double)((r2.x + r2.width) - r1.x)) * ((r1.height));
+			NetworkTable.getTable("GRIP").putNumber("centerX", centerXAvg);
+			NetworkTable.getTable("GRIP").putNumber("centerY", centerYAvg);
 			NetworkTable.getTable("GRIP").putNumber("area", area);
+			Imgproc.rectangle(inputImage, r1.tl(), r2.br(), new Scalar(0, 0, 5));
 		}
 
       // Here is where you would write a processed image that you want to restreams
