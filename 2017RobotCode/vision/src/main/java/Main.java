@@ -115,7 +115,7 @@ public class Main {
 			centerYTwo = r2.y + (r2.height/2);
 			centerXAvg = (centerXOne + centerXTwo)/2;
 			centerYAvg = (centerYOne + centerYTwo)/2;
-			area = (double)((r2.x + r2.width) - r1.x)) * ((r1.height));
+			area = (double)((r2.x + r2.width) - r1.x) * r1.height;
 			NetworkTable.getTable("GRIP").putNumber("centerX", centerXAvg);
 			NetworkTable.getTable("GRIP").putNumber("centerY", centerYAvg);
 			NetworkTable.getTable("GRIP").putNumber("area", area);
