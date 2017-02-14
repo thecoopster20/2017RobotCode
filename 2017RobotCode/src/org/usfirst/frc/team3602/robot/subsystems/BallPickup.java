@@ -21,8 +21,12 @@ public class BallPickup extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void runPickup() {
+    public void runPickupIn() {
     	pickupMotor.set(1);
+    }
+    
+    public void runPickupOut() {
+    	pickupMotor.set(-1);
     }
     
     public void stopPickup() {

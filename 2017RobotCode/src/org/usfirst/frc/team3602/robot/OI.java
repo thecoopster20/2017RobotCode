@@ -2,6 +2,8 @@ package org.usfirst.frc.team3602.robot;
 
 import org.usfirst.frc.team3602.robot.commands.DropGear;
 import org.usfirst.frc.team3602.robot.commands.GearHolderToggle;
+import org.usfirst.frc.team3602.robot.commands.PickupIn;
+import org.usfirst.frc.team3602.robot.commands.PickupOut;
 import org.usfirst.frc.team3602.robot.commands.ResetDriveSensors;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -20,6 +22,8 @@ public class OI {
 	public OI() {
 		SmartDashboard.putData("Gear Toggle", new GearHolderToggle());
 		SmartDashboard.putData("Reset Drive Sensors", new ResetDriveSensors());
+		SmartDashboard.putData("Pickup In", new PickupIn());
+		SmartDashboard.putData("Pickup Out", new PickupOut());
 		
 	}
 	
