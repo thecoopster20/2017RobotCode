@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-
+import GripPipeline;
 import edu.wpi.first.wpilibj.networktables.*;
 import edu.wpi.first.wpilibj.tables.*;
 import edu.wpi.cscore.*;
@@ -101,10 +101,12 @@ public class Main {
       proc.process(inputImage);
       
       if(!proc.convexHullsOutput().isEmpty()) {
-			Rect r = Imgproc.boundingRect(proc.convexHullsOutput().get(0));
-			centerX = r.x + (r.width / 2);
-			centerY = r.y + (r.height/2);
-			area = r.y * r.x;
+			Rect r1 = Imgproc.boundingRect(proc.convexHullsOutput().get(0));
+			Rect r2 = Imgproc.boundingRect(proc.convexHullsOutput().get(1));
+			rect c = Imgproc.rectangle(inputImage, r1.tl(), r2.br(), new Scalar(0, 0, 5));
+			centerX = c.x + (c.width / 2);
+			centerY = c.y + (c.height/2);
+			area = c.y * c.x;
 			NetworkTable.getTable("GRIP").putNumber("centerX", centerX);
 			NetworkTable.getTable("GRIP").putNumber("centerY", centerY);
 			NetworkTable.getTable("GRIP").putNumber("area", area);
@@ -113,7 +115,7 @@ public class Main {
       // Here is where you would write a processed image that you want to restreams
       // This will most likely be a marked up image of what the camera sees
       // For now, we are just going to stream the HSV image
-      imageSource.putFrame(hsv);
+      imageSource.putFrame(inputImage);
     }
   }
 

@@ -1,4 +1,5 @@
 import java.io.File;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,6 +32,10 @@ public class GripPipeline {
 
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+	}
+	
+	public GripPipeline() {
+		
 	}
 
 	/**
