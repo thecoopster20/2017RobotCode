@@ -40,6 +40,7 @@ public class RobotMap {
 	
 	//shooter motor
 	public static CANTalon shooterMotor;
+	public static CANTalon shooterFeeder;
 	
 	
 	//Assign motors and such their ports and other initial properties
@@ -64,6 +65,7 @@ public class RobotMap {
 		gearHolderOutSwitch = new DigitalInput(6);
 		
 		shooterMotor = new CANTalon(8);
+		shooterFeeder = new CANTalon(12);
 		
 		lightSwitchController = new Spark(1);
 		

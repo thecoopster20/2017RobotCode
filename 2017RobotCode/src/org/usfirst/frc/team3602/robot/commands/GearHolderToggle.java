@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class GearHolderToggle extends CommandGroup {
 
     public GearHolderToggle() {
-        if(Robot.gearHolder.getInSwitchState() == true) {
+        if(Robot.gearHolder.getInSwitchState()) {
         	addSequential(new GearHolderOut());
         }
-        else if (Robot.gearHolder.getOutSwitchState() == true) {
+        else if (Robot.gearHolder.getOutSwitchState()) {
         	addSequential(new GearHolderIn());
         }
         else {
