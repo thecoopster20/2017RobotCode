@@ -46,6 +46,8 @@ public class GearHolder extends Subsystem {
     }
     
     public void log() {
+    	SmartDashboard.putBoolean("Gear Out Switch", getOutSwitchState());
+    	SmartDashboard.putBoolean("Gear In Switch", getInSwitchState());
     }
 }
 

@@ -1,10 +1,13 @@
 package org.usfirst.frc.team3602.robot;
 
 import org.usfirst.frc.team3602.robot.commands.DropGear;
+import org.usfirst.frc.team3602.robot.commands.GearHolderIn;
+import org.usfirst.frc.team3602.robot.commands.GearHolderOut;
 import org.usfirst.frc.team3602.robot.commands.GearHolderToggle;
 import org.usfirst.frc.team3602.robot.commands.PickupIn;
 import org.usfirst.frc.team3602.robot.commands.PickupOut;
 import org.usfirst.frc.team3602.robot.commands.ResetDriveSensors;
+import org.usfirst.frc.team3602.robot.commands.RobotClimb;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -24,6 +27,9 @@ public class OI {
 		SmartDashboard.putData("Reset Drive Sensors", new ResetDriveSensors());
 		SmartDashboard.putData("Pickup In", new PickupIn());
 		SmartDashboard.putData("Pickup Out", new PickupOut());
+		SmartDashboard.putData("Gear Holder In", new GearHolderIn());
+		SmartDashboard.putData("Gear Holder Out", new GearHolderOut());
+		SmartDashboard.putData("Lift That Bot", new RobotClimb(5));
 		
 	}
 	
@@ -37,3 +43,4 @@ public class OI {
 }
 
 //I'm a test comment to make sure that GitHub is working for this project
+ 

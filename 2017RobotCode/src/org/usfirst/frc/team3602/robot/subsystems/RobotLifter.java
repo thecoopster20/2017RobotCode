@@ -22,7 +22,11 @@ public class RobotLifter extends Subsystem {
     }
     
     public void yeahMyBotLifts() {
-    	liftMotor.set(1);
+    	liftMotor.set(-1);
+    }
+    
+    public void takeABreakBro() {
+    	liftMotor.set(0);
     }
 }
 

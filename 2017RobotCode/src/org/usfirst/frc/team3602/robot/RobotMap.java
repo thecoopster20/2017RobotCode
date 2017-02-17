@@ -56,7 +56,7 @@ public class RobotMap {
 		
 		//one encoder has to be reversed to ensure both output for the same direction
 		driveLeftEncoder = new Encoder(3, 4, false, EncodingType.k4X);
-		driveRightEncoder = new Encoder(1, 2, true, EncodingType.k4X);
+		driveRightEncoder = new Encoder(1, 2, true, EncodingType.k4X);                                    
 		
 		driveGyro = new ADXRS450_Gyro();
 		
@@ -65,7 +65,7 @@ public class RobotMap {
 		gearHolderOutSwitch = new DigitalInput(6);
 		
 		shooterMotor = new CANTalon(8);
-		shooterFeeder = new CANTalon(12);
+		//shooterFeeder = new CANTalon(12);
 		
 		lightSwitchController = new Spark(1);
 		
