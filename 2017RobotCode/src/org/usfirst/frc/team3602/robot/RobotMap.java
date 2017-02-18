@@ -65,7 +65,7 @@ public class RobotMap {
 		gearHolderOutSwitch = new DigitalInput(6);
 		
 		shooterMotor = new CANTalon(8);
-		//shooterFeeder = new CANTalon(12);
+		shooterFeeder = new CANTalon(12);
 		
 		lightSwitchController = new Spark(1);
 		
