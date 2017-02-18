@@ -26,7 +26,7 @@ public class GearHolderIn extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.gearHolder.getInSwitchState();
+        return !Robot.gearHolder.getInSwitchState();
     }
 
     // Called once after isFinished returns true

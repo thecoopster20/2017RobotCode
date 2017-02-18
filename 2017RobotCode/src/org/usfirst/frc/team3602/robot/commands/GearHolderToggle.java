@@ -20,5 +20,6 @@ public class GearHolderToggle extends CommandGroup {
         	System.out.println("Screw not on set position, defaulting to out");
         	addSequential(new GearHolderOut());
         }
+        execute();
     }
 }

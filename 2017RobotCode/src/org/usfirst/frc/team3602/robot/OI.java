@@ -8,9 +8,12 @@ import org.usfirst.frc.team3602.robot.commands.PickupIn;
 import org.usfirst.frc.team3602.robot.commands.PickupOut;
 import org.usfirst.frc.team3602.robot.commands.ResetDriveSensors;
 import org.usfirst.frc.team3602.robot.commands.RobotClimb;
+import org.usfirst.frc.team3602.robot.subsystems.Shooter;
+import org.usfirst.frc.team3602.robot.commands.FireShooter;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -30,7 +33,11 @@ public class OI {
 		SmartDashboard.putData("Gear Holder In", new GearHolderIn());
 		SmartDashboard.putData("Gear Holder Out", new GearHolderOut());
 		SmartDashboard.putData("Lift That Bot", new RobotClimb(5));
+		SmartDashboard.putData("Drop Gear", new DropGear());
 		
+		JoystickButton FIRE = new JoystickButton(gamepad, 4);
+		
+		FIRE.toggleWhenPressed(new FireShooter());
 	}
 	
 	public Joystick getGamepad() {
