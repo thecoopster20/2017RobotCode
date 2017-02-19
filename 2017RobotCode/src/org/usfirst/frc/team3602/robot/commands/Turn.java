@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class Turn extends Command {
 	private PIDController pid;
 	
-	private final double kP = .05;
+	private final double kP = 0.005;
 	private final double kI = 0;
 	private final double kD = 0;
 
@@ -42,13 +42,7 @@ public class Turn extends Command {
     		@Override
     		public void pidWrite(double d) {
     			
-    			if(angle > 0) {
-    				Robot.driveTrain.turn(d);
-    			}
-    			
-    			else {
-    				Robot.driveTrain.turn(-d);
-    			}
+    			Robot.driveTrain.turn(d);
     				
     		}
     	});

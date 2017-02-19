@@ -8,6 +8,8 @@ import org.usfirst.frc.team3602.robot.commands.PickupIn;
 import org.usfirst.frc.team3602.robot.commands.PickupOut;
 import org.usfirst.frc.team3602.robot.commands.ResetDriveSensors;
 import org.usfirst.frc.team3602.robot.commands.RobotClimb;
+import org.usfirst.frc.team3602.robot.commands.Turn;
+import org.usfirst.frc.team3602.robot.commands.VisionTurn;
 import org.usfirst.frc.team3602.robot.subsystems.Shooter;
 import org.usfirst.frc.team3602.robot.commands.FireShooter;
 import org.usfirst.frc.team3602.robot.TriggerToButton;
@@ -51,6 +53,8 @@ public class OI {
 		ClimbDown.whileHeld(new RobotClimb(-1));
 		new TriggerToButton(gamepad, 3).whenActive(new GearHolderIn());
 		new TriggerToButton(gamepad, 2).whenActive(new GearHolderOut());
+		new DoubleButton(gamepad, 2, 3).whenActive(new VisionTurn());
+		new PovToButton(gamepad, 90).whenActive(new Turn(90));
 	}
 	
 	public Joystick getGamepad() {
@@ -59,10 +63,6 @@ public class OI {
 	
 	public Joystick getAuxController() {
 		return auxController;
-	}
-	
-	public boolean getRightTrigger() {
-		return gamepad.getTrigger(Hand.kRight);
 	}
 }
 

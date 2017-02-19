@@ -99,7 +99,6 @@ public class Main {
       // Just skip and continue
       long frameTime = imageSink.grabFrame(inputImage);
       if (frameTime == 0) continue;
-      imageSink.grabFrame(inputImage);
 
       // Below is where you would do your OpenCV operations on the provided image
       // The sample below just changes color source to HSV
