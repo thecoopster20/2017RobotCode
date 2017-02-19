@@ -27,11 +27,11 @@ public class GearHolder extends Subsystem {
     }
     
     public void gearHolderOut() {
-    	screw.set(-0.5);
+    	screw.set(-1);
     }
     
     public void gearHolderIn() {
-    	screw.set(0.5);
+    	screw.set(1);
     }
     
     public boolean getInSwitchState() {

@@ -39,6 +39,7 @@ public class OI {
 		SmartDashboard.putData("Lift That Bot", new RobotClimb(5));
 		SmartDashboard.putData("Drop Gear", new DropGear());
 		SmartDashboard.putData("Drive Until Gear", new DriveTilGearSwitch(0.5));
+		SmartDashboard.putData("Vision Turn", new VisionTurn());
 		
 		JoystickButton FIRE = new JoystickButton(gamepad, 4);
 		JoystickButton PickupIn = new JoystickButton(gamepad, 2);

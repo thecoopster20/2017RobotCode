@@ -103,7 +103,8 @@ public class Robot extends IterativeRobot {
 		//creates a separate thread for the camera switcher to run on
 		Thread t = new Thread(() -> {
 			
-    			rearCameraAllowed = false;	
+    			rearCameraAllowed = false;
+    			boolean bullseyeOn = false;
     		
     			//creates a camera object and sets the resolution and FPS
     			UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
@@ -128,7 +129,7 @@ public class Robot extends IterativeRobot {
             	
     				if(oi.getGamepad().getRawButton(7)) {
     					rearCameraAllowed = !rearCameraAllowed;
-    					Timer.delay(1);
+    					Timer.delay(0.5);
     				}
             	
     				if(rearCameraAllowed){
@@ -141,9 +142,14 @@ public class Robot extends IterativeRobot {
     					cvSink2.grabFrame(image);     
     				}
     				
+    				if(oi.getGamepad().getRawButton(8)) {
+    					bullseyeOn = !bullseyeOn;
+    					Timer.delay(0.5);
+    				}
+    				
     				//Draws a bullseye from the SmartDash preferences as long as the shooting camera is active
     				
-    				if(rearCameraAllowed) {
+    				if(bullseyeOn) {
     					Imgproc.circle(image, bullseyeCenter, bullseyeRadius, red, 2);
     					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x + bullseyeRadius, bullseyeCenter.y), red, 2);
     					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x - bullseyeRadius, bullseyeCenter.y), red, 2);

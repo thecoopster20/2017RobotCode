@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 
+
+
 import edu.wpi.first.wpilibj.networktables.*;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.*;
 import edu.wpi.cscore.*;
 import org.opencv.core.Mat;
@@ -98,13 +101,18 @@ public class Main {
       // Grab a frame. If it has a frame time of 0, there was an error.
       // Just skip and continue
       long frameTime = imageSink.grabFrame(inputImage);
-      if (frameTime == 0) continue;
+      if (frameTime == 0) {
+    	  //SmartDashboard.putString("Vision State", "Aquisition Error");
+    	  continue;
+      }
 
       // Below is where you would do your OpenCV operations on the provided image
       // The sample below just changes color source to HSV
       proc.process(inputImage);
       
-      if(!proc.convexHullsOutput().isEmpty()) {
+      int targetsFound = proc.convexHullsOutput().size();
+      
+      if(targetsFound >= 2) {
 			Rect r1 = Imgproc.boundingRect(proc.convexHullsOutput().get(0));
 			Rect r2 = Imgproc.boundingRect(proc.convexHullsOutput().get(1));
 
@@ -119,7 +127,13 @@ public class Main {
 			NetworkTable.getTable("GRIP").putNumber("centerY", centerYAvg);
 			NetworkTable.getTable("GRIP").putNumber("area", area);
 			Imgproc.rectangle(inputImage, r1.tl(), r2.br(), new Scalar(0, 0, 5));
+			//SmartDashboard.putString("Vision State", "Two or more targets found, processing");
 		}
+      else {
+    	 // SmartDashboard.putString("Vision State", "Less than two targets found, not processing");
+      }
+      
+      
 
       // Here is where you would write a processed image that you want to restreams
       // This will most likely be a marked up image of what the camera sees

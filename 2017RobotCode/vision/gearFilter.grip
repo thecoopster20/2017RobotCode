@@ -9,23 +9,23 @@
       <grip:Input step="0" socket="0"/>
       <grip:Input step="0" socket="1">
         <value>
-          <double>208.89830508474577</double>
+          <double>211.29943502824858</double>
           <double>255.0</double>
         </value>
       </grip:Input>
       <grip:Input step="0" socket="2">
         <value>
-          <double>199.29378531073445</double>
+          <double>237.71186440677965</double>
           <double>255.0</double>
         </value>
       </grip:Input>
       <grip:Input step="0" socket="3">
         <value>
-          <double>187.28813559322032</double>
-          <double>255.0</double>
+          <double>189.3998638689767</double>
+          <double>254.71059833225354</double>
         </value>
       </grip:Input>
-      <grip:Output step="0" socket="0" previewed="false"/>
+      <grip:Output step="0" socket="0" previewed="true"/>
     </grip:Step>
     <grip:Step name="Find Contours">
       <grip:Input step="1" socket="0"/>
@@ -43,20 +43,20 @@
         <value>0.0</value>
       </grip:Input>
       <grip:Input step="2" socket="3">
-        <value>10.0</value>
+        <value>5.0</value>
       </grip:Input>
       <grip:Input step="2" socket="4">
-        <value>320.0</value>
+        <value>200.0</value>
       </grip:Input>
       <grip:Input step="2" socket="5">
         <value>0.0</value>
       </grip:Input>
       <grip:Input step="2" socket="6">
-        <value>100.0</value>
+        <value>150.0</value>
       </grip:Input>
       <grip:Input step="2" socket="7">
         <value>
-          <double>94.80800114899006</double>
+          <double>36.73177610361801</double>
           <double>100.0</double>
         </value>
       </grip:Input>
@@ -105,6 +105,14 @@
   </steps>
   <connections>
     <grip:Connection>
+      <grip:Output step="2" socket="0" previewed="true"/>
+      <grip:Input step="3" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output source="0" socket="0" previewed="false"/>
+      <grip:Input step="0" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
       <grip:Output step="3" socket="0" previewed="false"/>
       <grip:Input step="4" socket="0"/>
     </grip:Connection>
@@ -113,16 +121,8 @@
       <grip:Input step="2" socket="0"/>
     </grip:Connection>
     <grip:Connection>
-      <grip:Output step="0" socket="0" previewed="false"/>
+      <grip:Output step="0" socket="0" previewed="true"/>
       <grip:Input step="1" socket="0"/>
-    </grip:Connection>
-    <grip:Connection>
-      <grip:Output source="0" socket="0" previewed="false"/>
-      <grip:Input step="0" socket="0"/>
-    </grip:Connection>
-    <grip:Connection>
-      <grip:Output step="2" socket="0" previewed="true"/>
-      <grip:Input step="3" socket="0"/>
     </grip:Connection>
   </connections>
   <settings>
@@ -138,7 +138,7 @@
     <language>Java</language>
     <className>GripPipeline</className>
     <implementWpilibPipeline>false</implementWpilibPipeline>
-    <saveDir>C:\Users\Robomos\GRIP</saveDir>
+    <saveDir>C:\Users\Robomos\git\2017RobotCode\2017RobotCode\vision\src\main\java</saveDir>
     <packageName></packageName>
     <moduleName>grip</moduleName>
   </codeGenerationSettings>

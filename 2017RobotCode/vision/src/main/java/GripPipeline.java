@@ -1,5 +1,4 @@
 import java.io.File;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,10 +32,6 @@ public class GripPipeline {
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
-	
-	public GripPipeline() {
-		
-	}
 
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
@@ -44,9 +39,9 @@ public class GripPipeline {
 	public void process(Mat source0) {
 		// Step RGB_Threshold0:
 		Mat rgbThresholdInput = source0;
-		double[] rgbThresholdRed = {208.89830508474577, 255.0};
-		double[] rgbThresholdGreen = {199.29378531073445, 255.0};
-		double[] rgbThresholdBlue = {187.28813559322032, 255.0};
+		double[] rgbThresholdRed = {211.29943502824858, 255.0};
+		double[] rgbThresholdGreen = {237.71186440677965, 255.0};
+		double[] rgbThresholdBlue = {189.3998638689767, 254.71059833225354};
 		rgbThreshold(rgbThresholdInput, rgbThresholdRed, rgbThresholdGreen, rgbThresholdBlue, rgbThresholdOutput);
 
 		// Step Find_Contours0:
@@ -58,11 +53,11 @@ public class GripPipeline {
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
 		double filterContoursMinArea = 45.0;
 		double filterContoursMinPerimeter = 0.0;
-		double filterContoursMinWidth = 10.0;
-		double filterContoursMaxWidth = 320.0;
+		double filterContoursMinWidth = 5.0;
+		double filterContoursMaxWidth = 200.0;
 		double filterContoursMinHeight = 0.0;
-		double filterContoursMaxHeight = 100.0;
-		double[] filterContoursSolidity = {94.80800114899006, 100.0};
+		double filterContoursMaxHeight = 150.0;
+		double[] filterContoursSolidity = {36.73177610361801, 100.0};
 		double filterContoursMaxVertices = 1000000.0;
 		double filterContoursMinVertices = 0.0;
 		double filterContoursMinRatio = 0.0;
@@ -70,8 +65,8 @@ public class GripPipeline {
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
 		// Step Convex_Hulls0:
-		ArrayList<MatOfPoint> convexHulls0Contours = filterContoursOutput;
-		convexHulls(convexHulls0Contours, convexHullsOutput);
+		ArrayList<MatOfPoint> convexHullsContours = filterContoursOutput;
+		convexHulls(convexHullsContours, convexHullsOutput);
 
 	}
 
@@ -106,6 +101,7 @@ public class GripPipeline {
 	public ArrayList<MatOfPoint> convexHullsOutput() {
 		return convexHullsOutput;
 	}
+
 
 	/**
 	 * Segment an image based on color ranges.
