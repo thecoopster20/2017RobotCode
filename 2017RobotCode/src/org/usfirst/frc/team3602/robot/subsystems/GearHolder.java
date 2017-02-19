@@ -16,6 +16,7 @@ public class GearHolder extends Subsystem {
 	private final CANTalon screw = RobotMap.gearHolderScrew;
 	private final DigitalInput inSwitch = RobotMap.gearHolderInSwitch;
 	private final DigitalInput outSwitch = RobotMap.gearHolderOutSwitch;
+	private final DigitalInput captureSwitch = RobotMap.gearHolderCaptureSwitch;
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -41,6 +42,10 @@ public class GearHolder extends Subsystem {
     	return outSwitch.get();
     }
     
+    public boolean getCaptureSwitchState() {
+    	return captureSwitch.get();
+    }
+    
     public void stopScrew() {
     	screw.set(0);
     }
@@ -48,6 +53,7 @@ public class GearHolder extends Subsystem {
     public void log() {
     	SmartDashboard.putBoolean("Gear Out Switch", getOutSwitchState());
     	SmartDashboard.putBoolean("Gear In Switch", getInSwitchState());
+    	SmartDashboard.putBoolean("Gear Capture Switch", getCaptureSwitchState());
     }
 }
 

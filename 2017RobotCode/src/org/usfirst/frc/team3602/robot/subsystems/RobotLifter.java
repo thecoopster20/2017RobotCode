@@ -21,8 +21,8 @@ public class RobotLifter extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void yeahMyBotLifts() {
-    	liftMotor.set(-1);
+    public void yeahMyBotLifts(double speed) {
+    	liftMotor.set(speed);
     }
     
     public void takeABreakBro() {

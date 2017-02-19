@@ -7,13 +7,14 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class RobotClimb extends Command {
+public class DriveTilGearSwitch extends Command {
 	
 	private double speed;
 
-    public RobotClimb(double speed) {
+    public DriveTilGearSwitch(double speed) {
     	this.speed = speed;
-        requires(Robot.robotLifter);
+        requires(Robot.driveTrain);
+        requires(Robot.gearHolder);
     }
 
     // Called just before this Command runs the first time
@@ -22,12 +23,17 @@ public class RobotClimb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.robotLifter.yeahMyBotLifts(speed);
+    	Robot.driveTrain.manualControl(speed, speed);
     }
 
-    // Called once after timeout
+    // Make this return true when this Command no longer needs to run execute()
+    protected boolean isFinished() {
+        return Robot.gearHolder.getCaptureSwitchState();
+    }
+
+    // Called once after isFinished returns true
     protected void end() {
-    	Robot.robotLifter.takeABreakBro();
+    	Robot.driveTrain.reset();
     }
 
     // Called when another command which requires one or more of the same
@@ -35,10 +41,4 @@ public class RobotClimb extends Command {
     protected void interrupted() {
     	end();
     }
-
-	@Override
-	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

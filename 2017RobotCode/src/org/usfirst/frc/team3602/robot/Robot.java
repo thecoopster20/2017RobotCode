@@ -2,10 +2,12 @@
 package org.usfirst.frc.team3602.robot;
 
 import edu.wpi.cscore.CvSink;
+
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -17,6 +19,8 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Point;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3602.robot.commands.CenterGearAuto;
 import org.usfirst.frc.team3602.robot.commands.LeftGearAuto;
@@ -48,8 +52,14 @@ public class Robot extends IterativeRobot {
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
+	Preferences prefs;
 	
 	public static boolean rearCameraAllowed;
+	public Point bullseyeCenter;
+	public int bullseyeRadius;
+	public int bullseyeHeight;
+	public int bullseyeWidth;
+	public Scalar red = new Scalar(0, 0, 255);
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -67,11 +77,19 @@ public class Robot extends IterativeRobot {
 		
 		oi = new OI();
 		
+		bullseyeCenter = new Point();
+		
 		//creates an auto selector button and adds the modes
 		SmartDashboard.putData("Auto Mode", chooser);
 		chooser.addObject("Center Gear", new CenterGearAuto());
 		chooser.addObject("Left Gear", new LeftGearAuto());
 		chooser.addObject("Right Gear", new RightGearAuto());
+		
+		prefs = Preferences.getInstance();
+		bullseyeCenter.x = prefs.getDouble("BullseyeCenterX", 160);
+		bullseyeCenter.y = prefs.getDouble("BullseyeCenter Y", 120);
+		bullseyeRadius = prefs.getInt("BullseyeRadius", 100);
+		
 		
 		//outputs all of the subsystems to the dash
 		SmartDashboard.putData(Scheduler.getInstance());
@@ -89,18 +107,18 @@ public class Robot extends IterativeRobot {
     		
     			//creates a camera object and sets the resolution and FPS
     			UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
-    			frontCamera.setResolution(640, 480);
+    			frontCamera.setResolution(320, 240);
     			frontCamera.setFPS(30);
             
     			UsbCamera rearCamera = CameraServer.getInstance().startAutomaticCapture(1);
-    			rearCamera.setResolution(640, 480);
+    			rearCamera.setResolution(320, 240);
     			rearCamera.setFPS(30);
             
     			//creates two sinks that allow us to grab the images from each camera
     			//then creates a switcher stream that we feed whatever image we want to
     			CvSink cvSink1 = CameraServer.getInstance().getVideo(rearCamera);
     			CvSink cvSink2 = CameraServer.getInstance().getVideo(frontCamera);
-    			CvSource outputStream = CameraServer.getInstance().putVideo("Switcher", 640, 480);
+    			CvSource outputStream = CameraServer.getInstance().putVideo("Switcher", 320, 240);
             
     			//creates a new mat for image capture
     			Mat image = new Mat();
@@ -123,8 +141,19 @@ public class Robot extends IterativeRobot {
     					cvSink2.grabFrame(image);     
     				}
     				
+    				//Draws a bullseye from the SmartDash preferences as long as the shooting camera is active
+    				
+    				if(rearCameraAllowed) {
+    					Imgproc.circle(image, bullseyeCenter, bullseyeRadius, red, 2);
+    					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x + bullseyeRadius, bullseyeCenter.y), red, 2);
+    					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x - bullseyeRadius, bullseyeCenter.y), red, 2);
+    					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x,  bullseyeCenter.y + bullseyeRadius), red, 2);
+    					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x, bullseyeCenter.y - bullseyeRadius), red, 2);
+    				}
+    				
     				//outputs the desired image to the switcher
     				outputStream.putFrame(image);
+    				SmartDashboard.putBoolean("Rear Camera On?", rearCameraAllowed);
     				
     			}
             

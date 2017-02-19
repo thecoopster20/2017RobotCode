@@ -37,6 +37,7 @@ public class RobotMap {
 	public static CANTalon gearHolderScrew;
 	public static DigitalInput gearHolderInSwitch;
 	public static DigitalInput gearHolderOutSwitch;
+	public static DigitalInput gearHolderCaptureSwitch;
 	
 	//shooter motor
 	public static CANTalon shooterMotor;
@@ -63,6 +64,7 @@ public class RobotMap {
 		gearHolderScrew = new CANTalon(11);
 		gearHolderInSwitch = new DigitalInput(5);
 		gearHolderOutSwitch = new DigitalInput(6);
+		gearHolderCaptureSwitch = new DigitalInput(7);
 		
 		shooterMotor = new CANTalon(8);
 		shooterFeeder = new CANTalon(12);
