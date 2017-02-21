@@ -42,6 +42,7 @@ public class RobotMap {
 	//shooter motor
 	public static CANTalon shooterMotor;
 	public static CANTalon shooterFeeder;
+	public static Spark shooterBeater;
 	
 	
 	//Assign motors and such their ports and other initial properties
@@ -83,6 +84,7 @@ public class RobotMap {
 		//creates the shooter and feeder motors
 		shooterMotor = new CANTalon(8);
 		shooterFeeder = new CANTalon(12);
+		shooterBeater = new Spark(2);
 		
 		//creates a motor controller to use as a light ring switch
 		lightSwitchController = new Spark(1);
