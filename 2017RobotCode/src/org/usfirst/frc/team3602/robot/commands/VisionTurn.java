@@ -11,18 +11,21 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 public class VisionTurn extends Command {
 	
 	private double visionDifference;
-	private final double kP = .005;
+	private final double kP = .0005;
 
     public VisionTurn() {
         requires(Robot.driveTrain);
+        requires(Robot.lightSwitch);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.bullseyeOn = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.lightSwitch.lightOn();
     	visionDifference = NetworkTable.getTable("GRIP").getNumber("centerX", 0) - (640 / 2);
     	Robot.driveTrain.turn(visionDifference * kP);
     }
@@ -39,6 +42,7 @@ public class VisionTurn extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.lightSwitch.lightOff();
     	Robot.driveTrain.manualControl(0, 0);
     }
 

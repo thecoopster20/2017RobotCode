@@ -55,6 +55,7 @@ public class Robot extends IterativeRobot {
 	Preferences prefs;
 	
 	public static boolean rearCameraAllowed;
+	public static boolean bullseyeOn;
 	public Point bullseyeCenter;
 	public int bullseyeRadius;
 	public int bullseyeHeight;
@@ -87,7 +88,7 @@ public class Robot extends IterativeRobot {
 		
 		prefs = Preferences.getInstance();
 		bullseyeCenter.x = prefs.getDouble("BullseyeCenterX", 160);
-		bullseyeCenter.y = prefs.getDouble("BullseyeCenter Y", 120);
+		bullseyeCenter.y = prefs.getDouble("BullseyeCenterY", 120);
 		bullseyeRadius = prefs.getInt("BullseyeRadius", 100);
 		
 		
@@ -104,7 +105,7 @@ public class Robot extends IterativeRobot {
 		Thread t = new Thread(() -> {
 			
     			rearCameraAllowed = false;
-    			boolean bullseyeOn = false;
+    			bullseyeOn = false;
     		
     			//creates a camera object and sets the resolution and FPS
     			UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
@@ -149,7 +150,7 @@ public class Robot extends IterativeRobot {
     				
     				//Draws a bullseye from the SmartDash preferences as long as the shooting camera is active
     				
-    				if(bullseyeOn) {
+    				if(bullseyeOn && rearCameraAllowed) {
     					Imgproc.circle(image, bullseyeCenter, bullseyeRadius, red, 2);
     					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x + bullseyeRadius, bullseyeCenter.y), red, 2);
     					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x - bullseyeRadius, bullseyeCenter.y), red, 2);
@@ -183,7 +184,6 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		log();
-		lightSwitch.lightOff();
 		driveTrain.reset();
 	}
 
@@ -222,7 +222,6 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		log();
-		lightSwitch.lightOn();
 	}
 
 	@Override
@@ -242,7 +241,6 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		log();
-		lightSwitch.lightOn();
 	}
 
 	/**

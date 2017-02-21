@@ -20,6 +20,11 @@ public class GearHolder extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+	
+	public GearHolder() {
+		screw.ConfigFwdLimitSwitchNormallyOpen(true);
+		screw.ConfigRevLimitSwitchNormallyOpen(true);
+	}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -27,19 +32,19 @@ public class GearHolder extends Subsystem {
     }
     
     public void gearHolderOut() {
-    	screw.set(-1);
+    	screw.set(-0.75);
     }
     
     public void gearHolderIn() {
-    	screw.set(1);
+    	screw.set(0.75);
     }
     
     public boolean getInSwitchState() {
-    	return inSwitch.get();
+    	return !inSwitch.get();
     }
     
     public boolean getOutSwitchState() {
-    	return outSwitch.get();
+    	return !outSwitch.get();
     }
     
     public boolean getCaptureSwitchState() {
@@ -54,6 +59,18 @@ public class GearHolder extends Subsystem {
     	SmartDashboard.putBoolean("Gear Out Switch", getOutSwitchState());
     	SmartDashboard.putBoolean("Gear In Switch", getInSwitchState());
     	SmartDashboard.putBoolean("Gear Capture Switch", getCaptureSwitchState());
+    	if(getOutSwitchState() && getInSwitchState()) {
+    		SmartDashboard.putString("Floor Position", "You Dun Goofed");
+    	}
+    	else if (getOutSwitchState() && !getInSwitchState()) {
+    		SmartDashboard.putString("Floor Position", "Floor Out");
+    	}
+    	else if (!getOutSwitchState() && getInSwitchState()) {
+    		SmartDashboard.putString("Floor Position", "Floor In");
+    	}
+    	else {
+    		SmartDashboard.putString("Floor Position", "Floor Moving");
+    	}
     }
 }
 

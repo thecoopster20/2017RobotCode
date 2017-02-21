@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveStraight extends Command {
 	private PIDController pid;
 	
-	private final double kP = .05;
+	private final double kP = .005;
 	private final double kI = 0;
 	private final double kD = 0;
 
@@ -65,7 +65,7 @@ public class DriveStraight extends Command {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return pid.onTarget();
+		return (pid.onTarget() || !Robot.gearHolder.getCaptureSwitchState());
 	}
 
 	// Called once after isFinished returns true

@@ -27,6 +27,12 @@ public class DriveTrain extends Subsystem {
 	private final double pi = Math.PI;
 	private final double distPerEncoderRev = (driveWheelDiameter * pi) / encoderCountsPerRev;
 	
+	private double moveAxis;
+	private double rotateAxis;
+	private double moveAxisSpeed;
+	private double rotateAxisSpeed;
+	private final double deadband = 0.1;
+	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -46,11 +52,29 @@ public class DriveTrain extends Subsystem {
     public void driverControl(Joystick joy) {
     	//control the drive with a joystick and
     	//invert controls if the rear camera is active
-    	if(Robot.rearCameraAllowed == true) {
-    		drive.arcadeDrive(joy.getRawAxis(1), -joy.getRawAxis(4));
+    	
+    	moveAxis = joy.getRawAxis(1);
+    	rotateAxis = joy.getRawAxis(4);
+    	
+    	if(Math.abs(moveAxis) >= deadband) {
+    		moveAxisSpeed = moveAxis;
     	}
     	else {
-    		drive.arcadeDrive(-joy.getRawAxis(1), -joy.getRawAxis(4));
+    		moveAxisSpeed = 0;
+    	}
+    	
+    	if(Math.abs(rotateAxis) >= deadband) {
+    		rotateAxisSpeed = rotateAxis;
+    	}
+    	else {
+    		rotateAxisSpeed = 0;
+    	}
+    	
+    	if(Robot.rearCameraAllowed == true) {
+    		drive.arcadeDrive(moveAxisSpeed, -rotateAxisSpeed);
+    	}
+    	else {
+    		drive.arcadeDrive(-moveAxisSpeed, -rotateAxisSpeed);
     	}
     }
     

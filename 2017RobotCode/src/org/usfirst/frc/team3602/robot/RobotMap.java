@@ -21,10 +21,10 @@ public class RobotMap {
 	//Create variables for motors, sensors, etc.
 	
 	//Drive Motors and Sensors
-	public static CANTalon driveFrontLeftMotor;
-	public static CANTalon driveFrontRightMotor;
-	public static CANTalon driveRearLeftMotor;
-	public static CANTalon driveRearRightMotor;
+	public static CANTalon driveLeftMotor;
+	public static CANTalon driveRightMotor;
+	public static CANTalon driveLeftSlaveMotor;
+	public static CANTalon driveRightSlaveMotor;
 	public static RobotDrive driveTrain;
 	public static Encoder driveLeftEncoder;
 	public static Encoder driveRightEncoder;
@@ -48,11 +48,16 @@ public class RobotMap {
 	public static void init() {
 		
 		//reserve CAN IDs 1-3 for RIO, PDB, and PCM
-		driveFrontLeftMotor = new CANTalon(4);
-		driveFrontRightMotor = new CANTalon(5);
-		driveRearLeftMotor = new CANTalon(6);
-		driveRearRightMotor = new CANTalon(7);
-		driveTrain = new RobotDrive(driveFrontLeftMotor, driveRearLeftMotor, driveFrontRightMotor, driveRearRightMotor);
+		driveLeftMotor = new CANTalon(4);
+		driveRightMotor = new CANTalon(5);
+		driveLeftSlaveMotor = new CANTalon(6);
+		driveLeftSlaveMotor.changeControlMode(CANTalon.TalonControlMode.Follower);
+		driveLeftSlaveMotor.set(driveLeftMotor.getDeviceID());
+		driveRightSlaveMotor = new CANTalon(7);
+		driveRightSlaveMotor.changeControlMode(CANTalon.TalonControlMode.Follower);
+		driveRightSlaveMotor.set(driveRightMotor.getDeviceID());
+		driveTrain = new RobotDrive(driveLeftMotor, driveRightMotor);
+		driveTrain.setSafetyEnabled(false);
 		driveTrain.setSensitivity(0.5);
 		
 		//one encoder has to be reversed to ensure both output for the same direction
