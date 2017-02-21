@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriverControl extends Command {
 
     public DriverControl() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.driveTrain);
     }
 

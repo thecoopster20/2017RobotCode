@@ -41,7 +41,8 @@ import org.usfirst.frc.team3602.robot.subsystems.Shooter;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
+	
+	//subsystem variables
 	public static DriveTrain driveTrain;
 	public static OI oi;
 	public static GearHolder gearHolder;
@@ -49,11 +50,13 @@ public class Robot extends IterativeRobot {
 	public static LightSwitch lightSwitch;
 	public static BallPickup ballPickup;
 	public static RobotLifter robotLifter;
-
+	
+	//auton and smart dash preferences
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	Preferences prefs;
 	
+	//variables for vision related things
 	public static boolean rearCameraAllowed;
 	public static boolean bullseyeOn;
 	public Point bullseyeCenter;
@@ -68,6 +71,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		
+		//initializes all of the subsystems 
 		RobotMap.init();
 		driveTrain = new DriveTrain();
 		gearHolder = new GearHolder();
@@ -76,8 +81,10 @@ public class Robot extends IterativeRobot {
 		ballPickup = new BallPickup();
 		robotLifter = new RobotLifter();
 		
+		//initializes the joysticks and such in OI
 		oi = new OI();
 		
+		//creates an empty point for the bullseye drawing
 		bullseyeCenter = new Point();
 		
 		//creates an auto selector button and adds the modes
@@ -86,11 +93,11 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Left Gear", new LeftGearAuto());
 		chooser.addObject("Right Gear", new RightGearAuto());
 		
+		//gets the values for the bullseye placement from the SmartDash prefs
 		prefs = Preferences.getInstance();
 		bullseyeCenter.x = prefs.getDouble("BullseyeCenterX", 160);
 		bullseyeCenter.y = prefs.getDouble("BullseyeCenterY", 120);
 		bullseyeRadius = prefs.getInt("BullseyeRadius", 100);
-		
 		
 		//outputs all of the subsystems to the dash
 		SmartDashboard.putData(Scheduler.getInstance());
@@ -104,6 +111,7 @@ public class Robot extends IterativeRobot {
 		//creates a separate thread for the camera switcher to run on
 		Thread t = new Thread(() -> {
 			
+				//has the robot default to the front camera and no bullseye
     			rearCameraAllowed = false;
     			bullseyeOn = false;
     		
@@ -111,7 +119,8 @@ public class Robot extends IterativeRobot {
     			UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
     			frontCamera.setResolution(320, 240);
     			frontCamera.setFPS(30);
-            
+    			
+    			//creates another camera and sets the res and FPS
     			UsbCamera rearCamera = CameraServer.getInstance().startAutomaticCapture(1);
     			rearCamera.setResolution(320, 240);
     			rearCamera.setFPS(30);
@@ -143,12 +152,14 @@ public class Robot extends IterativeRobot {
     					cvSink2.grabFrame(image);     
     				}
     				
+    				//creates a toggle for the bullseye
     				if(oi.getGamepad().getRawButton(8)) {
     					bullseyeOn = !bullseyeOn;
     					Timer.delay(0.5);
     				}
     				
-    				//Draws a bullseye from the SmartDash preferences as long as the shooting camera is active
+    				//Draws a bullseye as long as the shooting camera is active
+    				//and the driver wants the bullseye to be on
     				
     				if(bullseyeOn && rearCameraAllowed) {
     					Imgproc.circle(image, bullseyeCenter, bullseyeRadius, red, 2);

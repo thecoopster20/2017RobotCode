@@ -27,10 +27,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	
+	//creates the joysticks that will be used
 	private Joystick gamepad = new Joystick(0);
 	private Joystick auxController = new Joystick(1);
 	
 	public OI() {
+		
+		//creates buttons to call commands from the SmartDash
 		SmartDashboard.putData("Reset Drive Sensors", new ResetDriveSensors());
 		SmartDashboard.putData("Pickup In", new PickupIn());
 		SmartDashboard.putData("Pickup Out", new PickupOut());
@@ -41,17 +45,21 @@ public class OI {
 		SmartDashboard.putData("Drive Until Gear", new DriveTilGearSwitch(0.5));
 		SmartDashboard.putData("Vision Turn", new VisionTurn());
 		
+		//creates buttons to call commands from the joysticks
 		JoystickButton FIRE = new JoystickButton(gamepad, 4);
 		JoystickButton PickupIn = new JoystickButton(gamepad, 2);
 		JoystickButton PickupOut = new JoystickButton(gamepad, 3);
 		JoystickButton Climb = new JoystickButton(gamepad, 5);
 		JoystickButton ClimbDown = new JoystickButton(gamepad, 6);
 		
+		//assigns each button a command and when to execute the command
 		FIRE.toggleWhenPressed(new FireShooter());
 		PickupIn.toggleWhenPressed(new PickupIn());
 		PickupOut.toggleWhenPressed(new PickupOut());
 		Climb.whileHeld(new RobotClimb(1));
 		ClimbDown.whileHeld(new RobotClimb(-1));
+		
+		//assigns custom triggers a command and when to execute the command
 		new TriggerToButton(gamepad, 3).whenActive(new GearHolderIn());
 		new TriggerToButton(gamepad, 2).whenActive(new GearHolderOut());
 		new DoubleButton(gamepad, 2, 3).whenActive(new VisionTurn());

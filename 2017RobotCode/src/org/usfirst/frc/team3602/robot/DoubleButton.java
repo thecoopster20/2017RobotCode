@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
- *
+ *Turns a double button press into a button
  */
 public class DoubleButton extends Trigger {
 	

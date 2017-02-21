@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
- *
+ *Turns a POV into a button
  */
 public class PovToButton extends Trigger {
 	

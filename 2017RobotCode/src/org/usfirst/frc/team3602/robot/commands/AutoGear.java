@@ -3,7 +3,8 @@ package org.usfirst.frc.team3602.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *
+ *Turns the bot via a camera, then drives to the gear, and then drops the gear
+ *onto the peg.
  */
 public class AutoGear extends CommandGroup {
 

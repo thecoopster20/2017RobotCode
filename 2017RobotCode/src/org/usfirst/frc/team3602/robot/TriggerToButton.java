@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
- *
+ *Turns an axis trigger into a button
  */
 public class TriggerToButton extends Trigger {
 	

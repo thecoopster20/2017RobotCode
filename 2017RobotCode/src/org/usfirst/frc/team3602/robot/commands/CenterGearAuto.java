@@ -3,7 +3,7 @@ package org.usfirst.frc.team3602.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *
+ *Auto mode for dropping a gear onto the central peg.
  */
 public class CenterGearAuto extends CommandGroup {
 	
@@ -11,6 +11,7 @@ public class CenterGearAuto extends CommandGroup {
 
     public CenterGearAuto() {
     	
+    	//self explanatory
     	addSequential(new AutoGear());
     	
     	//backs away from the peg for whatever distance we want

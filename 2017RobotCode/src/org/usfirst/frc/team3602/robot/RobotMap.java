@@ -50,12 +50,19 @@ public class RobotMap {
 		//reserve CAN IDs 1-3 for RIO, PDB, and PCM
 		driveLeftMotor = new CANTalon(4);
 		driveRightMotor = new CANTalon(5);
+		
+		//creates a drive motor and enslaves it to the other left side motor
 		driveLeftSlaveMotor = new CANTalon(6);
 		driveLeftSlaveMotor.changeControlMode(CANTalon.TalonControlMode.Follower);
 		driveLeftSlaveMotor.set(driveLeftMotor.getDeviceID());
+		
+		//creates another enslaved drive motor
 		driveRightSlaveMotor = new CANTalon(7);
 		driveRightSlaveMotor.changeControlMode(CANTalon.TalonControlMode.Follower);
 		driveRightSlaveMotor.set(driveRightMotor.getDeviceID());
+		
+		//creates a RobotDrive for our control, and overrides the safety
+		//function to shut those stupid timing errors up
 		driveTrain = new RobotDrive(driveLeftMotor, driveRightMotor);
 		driveTrain.setSafetyEnabled(false);
 		driveTrain.setSensitivity(0.5);
@@ -64,20 +71,26 @@ public class RobotMap {
 		driveLeftEncoder = new Encoder(3, 4, false, EncodingType.k4X);
 		driveRightEncoder = new Encoder(1, 2, true, EncodingType.k4X);                                    
 		
+		//creates a gyro for getting the heading of the robot.
 		driveGyro = new ADXRS450_Gyro();
 		
+		//creates our screw motor, switches, and the extra gear sensing switch
 		gearHolderScrew = new CANTalon(11);
 		gearHolderInSwitch = new DigitalInput(5);
 		gearHolderOutSwitch = new DigitalInput(6);
 		gearHolderCaptureSwitch = new DigitalInput(7);
 		
+		//creates the shooter and feeder motors
 		shooterMotor = new CANTalon(8);
 		shooterFeeder = new CANTalon(12);
 		
+		//creates a motor controller to use as a light ring switch
 		lightSwitchController = new Spark(1);
 		
+		//creates the motor for the pickup
 		ballPickupMotor = new CANTalon(9);
 		
+		//creates the motor for the lifting winch
 		robotLiftMotor = new CANTalon(10);
 	}
 
