@@ -30,7 +30,7 @@ public class Shooter extends Subsystem {
     public void setShooterSpeed(double shootSpeed) {
     	motor.set(shootSpeed);
     	feeder.set(1);
-    	beater.set(0.5);
+    	beater.set(1);
     	currentShootSpeed = shootSpeed;
     }
     

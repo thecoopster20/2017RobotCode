@@ -112,7 +112,7 @@ public class Robot extends IterativeRobot {
 		Thread t = new Thread(() -> {
 			
 				//has the robot default to the front camera and no bullseye
-    			rearCameraAllowed = false;
+    			rearCameraAllowed = true;
     			bullseyeOn = false;
     		
     			//creates a camera object and sets the resolution and FPS
