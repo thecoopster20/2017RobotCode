@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3602.robot.commands;
 
 import org.usfirst.frc.team3602.robot.Robot;
+import org.usfirst.frc.team3602.robot.VisionAngleCalculator;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -13,13 +14,17 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class Turn extends Command {
 	private PIDController pid;
+	private VisionAngleCalculator visionAngle;
 	
 	private final double kP = 0.005;
 	private final double kI = 0;
 	private final double kD = 0;
+	
+	
 
-    public Turn(double angle) {
+    public Turn(double angle, boolean vision) {
     	requires(Robot.driveTrain);
+    	visionAngle = new VisionAngleCalculator();
     	pid = new PIDController(kP, kI, kP, new PIDSource() {
     		PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
     		
@@ -48,7 +53,14 @@ public class Turn extends Command {
     	});
     	pid.setOutputRange(-0.75, 0.75);
     	pid.setAbsoluteTolerance(1);
-    	pid.setSetpoint(angle);
+    	
+    	if (vision) {
+    		pid.setSetpoint(visionAngle.getHorizontalAngle());
+    	}
+    	else {
+    		pid.setSetpoint(angle);
+    	}
+    	
     }
 
     // Called just before this Command runs the first time

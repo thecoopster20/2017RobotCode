@@ -9,10 +9,11 @@ import org.usfirst.frc.team3602.robot.commands.PickupOut;
 import org.usfirst.frc.team3602.robot.commands.ResetDriveSensors;
 import org.usfirst.frc.team3602.robot.commands.RobotClimb;
 import org.usfirst.frc.team3602.robot.commands.Turn;
-import org.usfirst.frc.team3602.robot.commands.VisionTurn;
+//import org.usfirst.frc.team3602.robot.commands.VisionTurn;
 import org.usfirst.frc.team3602.robot.subsystems.Shooter;
+import org.usfirst.frc.team3602.robot.triggers.PovToButton;
+import org.usfirst.frc.team3602.robot.triggers.TriggerToButton;
 import org.usfirst.frc.team3602.robot.commands.FireShooter;
-import org.usfirst.frc.team3602.robot.TriggerToButton;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
@@ -43,7 +44,7 @@ public class OI {
 		SmartDashboard.putData("Lift That Bot", new RobotClimb(5));
 		SmartDashboard.putData("Drop Gear", new DropGear());
 		SmartDashboard.putData("Drive Until Gear", new DriveTilGearSwitch(0.5));
-		SmartDashboard.putData("Vision Turn", new VisionTurn());
+		//SmartDashboard.putData("Vision Turn", new VisionTurn());
 		
 		//creates buttons to call commands from the joysticks
 		JoystickButton FIRE = new JoystickButton(gamepad, 4);
@@ -59,13 +60,13 @@ public class OI {
 		PickupOut.toggleWhenPressed(new PickupOut());
 		Climb.whileHeld(new RobotClimb(1));
 		ClimbDown.whileHeld(new RobotClimb(-1));
-		Vision.whenActive(new VisionTurn());
+		//Vision.whenActive(new VisionTurn());
 		
 		//assigns custom triggers a command and when to execute the command
 		new TriggerToButton(gamepad, 3).whenActive(new GearHolderIn());
 		new TriggerToButton(gamepad, 2).whenActive(new GearHolderOut());
-		new PovToButton(gamepad, 90).whenActive(new Turn(90));
-		new PovToButton(gamepad, 0).whenActive(new VisionTurn());
+		new PovToButton(gamepad, 90).whenActive(new Turn(90, false));
+		//new PovToButton(gamepad, 0).whenActive(new VisionTurn());
 	}
 	
 	public Joystick getGamepad() {

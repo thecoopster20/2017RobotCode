@@ -59,6 +59,7 @@ public class Robot extends IterativeRobot {
 	//variables for vision related things
 	public static boolean rearCameraAllowed;
 	public static boolean bullseyeOn;
+	public static boolean isVisionProcessing;
 	public Point bullseyeCenter;
 	public int bullseyeRadius;
 	public int bullseyeHeight;
