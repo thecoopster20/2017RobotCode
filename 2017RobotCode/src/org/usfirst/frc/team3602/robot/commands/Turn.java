@@ -19,8 +19,6 @@ public class Turn extends Command {
 	private final double kP = 0.005;
 	private final double kI = 0;
 	private final double kD = 0;
-	
-	
 
     public Turn(double angle, boolean vision) {
     	requires(Robot.driveTrain);
@@ -52,7 +50,7 @@ public class Turn extends Command {
     		}
     	});
     	pid.setOutputRange(-0.75, 0.75);
-    	pid.setAbsoluteTolerance(1);
+    	pid.setAbsoluteTolerance(0.1);
     	
     	if (vision) {
     		pid.setSetpoint(visionAngle.getHorizontalAngle());

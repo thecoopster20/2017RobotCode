@@ -13,10 +13,8 @@ public class RightGearAuto extends CommandGroup {
 
     public RightGearAuto() {
         
-    	addSequential(new DriveStraight(distanceUntilTurn));
+    	addSequential(new DriveStraight(distanceUntilTurn, false));
     	addSequential(new Turn(turnTilVisionAngle, false));
     	addSequential(new AutoGear());
-    	addSequential(new DriveStraight(backupDistance));
-    	
     }
 }

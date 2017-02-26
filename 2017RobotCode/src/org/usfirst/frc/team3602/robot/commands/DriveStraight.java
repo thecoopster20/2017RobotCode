@@ -21,13 +21,15 @@ public class DriveStraight extends Command {
 	
 	private final double baseDriveSpeed = 0.5;
 	private double targetDistance;
+	private boolean invertDrive;
 	
 	private double pidTurnValue;
 
-	public DriveStraight(double distance) {
+	public DriveStraight(double distance, boolean invert) {
 		requires(Robot.driveTrain);
 		
 		targetDistance = distance;
+		invertDrive = invert;
 		
 		pidTurn = new PIDController(kPTurn, kITurn, kDTurn, new PIDSource() {
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
@@ -67,7 +69,12 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.driveTrain.manualArcadeControl(baseDriveSpeed, pidTurnValue);
+		if (invertDrive){
+			Robot.driveTrain.manualArcadeControl(-baseDriveSpeed, -pidTurnValue);
+		}
+		else {
+			Robot.driveTrain.manualArcadeControl(baseDriveSpeed, pidTurnValue);
+		}
 	}
 	
 	// Make this return true when this Command no longer needs to run execute()

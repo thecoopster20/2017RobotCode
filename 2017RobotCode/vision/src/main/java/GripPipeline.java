@@ -53,11 +53,11 @@ public class GripPipeline {
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
 		double filterContoursMinArea = 45.0;
 		double filterContoursMinPerimeter = 0.0;
-		double filterContoursMinWidth = 5.0;
-		double filterContoursMaxWidth = 200.0;
+		double filterContoursMinWidth = 10.0;
+		double filterContoursMaxWidth = 197.0;
 		double filterContoursMinHeight = 0.0;
 		double filterContoursMaxHeight = 150.0;
-		double[] filterContoursSolidity = {36.73177610361801, 100.0};
+		double[] filterContoursSolidity = {62.14012456096828, 100.0};
 		double filterContoursMaxVertices = 1000000.0;
 		double filterContoursMinVertices = 0.0;
 		double filterContoursMinRatio = 0.0;

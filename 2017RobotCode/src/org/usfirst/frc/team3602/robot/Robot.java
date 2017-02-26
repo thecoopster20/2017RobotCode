@@ -50,6 +50,7 @@ public class Robot extends IterativeRobot {
 	public static LightSwitch lightSwitch;
 	public static BallPickup ballPickup;
 	public static RobotLifter robotLifter;
+	public static VisionAngleCalculator visionAngle;
 	
 	//auton and smart dash preferences
 	Command autonomousCommand;
@@ -81,6 +82,7 @@ public class Robot extends IterativeRobot {
 		lightSwitch = new LightSwitch();
 		ballPickup = new BallPickup();
 		robotLifter = new RobotLifter();
+		visionAngle = new VisionAngleCalculator();
 		
 		//initializes the joysticks and such in OI
 		oi = new OI();
@@ -172,6 +174,7 @@ public class Robot extends IterativeRobot {
     				
     				//outputs the desired image to the switcher
     				outputStream.putFrame(image);
+    				SmartDashboard.putNumber("Vision Angle", visionAngle.getHorizontalAngle());
     				SmartDashboard.putBoolean("Rear Camera On?", rearCameraAllowed);
     				
     			}

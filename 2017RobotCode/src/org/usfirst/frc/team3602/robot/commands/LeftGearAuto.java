@@ -13,10 +13,8 @@ public class LeftGearAuto extends CommandGroup {
 
     public LeftGearAuto() {
         
-    	addSequential(new DriveStraight(distanceUntilTurn));
+    	addSequential(new DriveStraight(distanceUntilTurn, false));
     	addSequential(new Turn(turnTilVisionAngle, false));
     	addSequential(new AutoGear());
-    	addSequential(new DriveStraight(backupDistance));
-    	
     }
 }
