@@ -83,8 +83,16 @@ public class DriveTrain extends Subsystem {
     	drive.tankDrive(leftSpeed, rightSpeed);
     }
     
+    public void manualArcadeControl(double moveSpeed, double turnSpeed) {
+    	drive.arcadeDrive(moveSpeed, turnSpeed);
+    }
+    
     public void turn(double turnSpeed) {
     	drive.arcadeDrive(0, turnSpeed);
+    }
+    
+    public void straight(double straightSpeed) {
+    	drive.arcadeDrive(straightSpeed, 0);
     }
     
     public double getLeftEnc() {
