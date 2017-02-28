@@ -50,7 +50,6 @@ public class Robot extends IterativeRobot {
 	public static LightSwitch lightSwitch;
 	public static BallPickup ballPickup;
 	public static RobotLifter robotLifter;
-	public static VisionAngleCalculator visionAngle;
 	
 	//auton and smart dash preferences
 	Command autonomousCommand;
@@ -58,7 +57,7 @@ public class Robot extends IterativeRobot {
 	Preferences prefs;
 	
 	//variables for vision related things
-	public static boolean rearCameraAllowed;
+	public static volatile boolean rearCameraAllowed;
 	public static boolean bullseyeOn;
 	public static boolean isVisionProcessing;
 	public Point bullseyeCenter;
@@ -82,7 +81,6 @@ public class Robot extends IterativeRobot {
 		lightSwitch = new LightSwitch();
 		ballPickup = new BallPickup();
 		robotLifter = new RobotLifter();
-		visionAngle = new VisionAngleCalculator();
 		
 		//initializes the joysticks and such in OI
 		oi = new OI();
@@ -114,71 +112,72 @@ public class Robot extends IterativeRobot {
 		//creates a separate thread for the camera switcher to run on
 		Thread t = new Thread(() -> {
 			
-				//has the robot default to the front camera and no bullseye
-    			rearCameraAllowed = true;
-    			bullseyeOn = false;
-    		
-    			//creates a camera object and sets the resolution and FPS
-    			UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
-    			frontCamera.setResolution(320, 240);
-    			frontCamera.setFPS(30);
-    			
-    			//creates another camera and sets the res and FPS
-    			UsbCamera rearCamera = CameraServer.getInstance().startAutomaticCapture(1);
-    			rearCamera.setResolution(320, 240);
-    			rearCamera.setFPS(30);
-            
-    			//creates two sinks that allow us to grab the images from each camera
-    			//then creates a switcher stream that we feed whatever image we want to
-    			CvSink cvSink1 = CameraServer.getInstance().getVideo(rearCamera);
-    			CvSink cvSink2 = CameraServer.getInstance().getVideo(frontCamera);
-    			CvSource outputStream = CameraServer.getInstance().putVideo("Switcher", 320, 240);
-            
-    			//creates a new mat for image capture
-    			Mat image = new Mat();
-            
-    			//switches camera feed on a button press or the manual setting of the rearCameraAllowed boolean
-    			while(!Thread.interrupted()) {
-            	
-    				if(oi.getGamepad().getRawButton(7)) {
-    					rearCameraAllowed = !rearCameraAllowed;
-    					Timer.delay(0.5);
-    				}
-            	
-    				if(rearCameraAllowed){
-    					cvSink2.setEnabled(false);
-    					cvSink1.setEnabled(true);
-    					cvSink1.grabFrame(image);
-    				} else{
-    					cvSink1.setEnabled(false);
-    					cvSink2.setEnabled(true);
-    					cvSink2.grabFrame(image);     
-    				}
-    				
-    				//creates a toggle for the bullseye
-    				if(oi.getGamepad().getRawButton(8)) {
-    					bullseyeOn = !bullseyeOn;
-    					Timer.delay(0.5);
-    				}
-    				
-    				//Draws a bullseye as long as the shooting camera is active
-    				//and the driver wants the bullseye to be on
-    				
-    				if(bullseyeOn && rearCameraAllowed) {
-    					Imgproc.circle(image, bullseyeCenter, bullseyeRadius, red, 2);
-    					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x + bullseyeRadius, bullseyeCenter.y), red, 2);
-    					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x - bullseyeRadius, bullseyeCenter.y), red, 2);
-    					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x,  bullseyeCenter.y + bullseyeRadius), red, 2);
-    					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x, bullseyeCenter.y - bullseyeRadius), red, 2);
-    				}
-    				
-    				//outputs the desired image to the switcher
-    				outputStream.putFrame(image);
-    				SmartDashboard.putNumber("Vision Angle", visionAngle.getHorizontalAngle());
-    				SmartDashboard.putBoolean("Rear Camera On?", rearCameraAllowed);
-    				
-    			}
-            
+			
+			//has the robot default to the front camera and no bullseye
+			rearCameraAllowed = true;
+			bullseyeOn = false;
+		
+			//creates a camera object and sets the resolution and FPS
+			UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
+			frontCamera.setResolution(320, 240);
+			frontCamera.setFPS(30);
+			frontCamera.setExposureManual(3);
+			
+			//creates another camera and sets the res and FPS
+			UsbCamera rearCamera = CameraServer.getInstance().startAutomaticCapture(1);
+			rearCamera.setResolution(320, 240);
+			rearCamera.setFPS(30);
+			rearCamera.setExposureManual(3);
+        
+			//creates two sinks that allow us to grab the images from each camera
+			//then creates a switcher stream that we feed whatever image we want to
+			CvSink cvSink1 = CameraServer.getInstance().getVideo(rearCamera);
+			CvSink cvSink2 = CameraServer.getInstance().getVideo(frontCamera);
+			CvSource outputStream = CameraServer.getInstance().putVideo("Switcher", 320, 240);
+        
+			//creates a new mat for image capture
+			Mat image = new Mat();
+        
+			//switches camera feed on a button press or the manual setting of the rearCameraAllowed boolean
+			while(!Thread.interrupted()) {
+        	
+				if(oi.getGamepad().getRawButton(7)) {
+					rearCameraAllowed = !rearCameraAllowed;
+					Timer.delay(0.5);
+				}
+        	
+				if(rearCameraAllowed){
+					cvSink2.setEnabled(false);
+					cvSink1.setEnabled(true);
+					cvSink1.grabFrame(image);
+				} else{
+					cvSink1.setEnabled(false);
+					cvSink2.setEnabled(true);
+					cvSink2.grabFrame(image);
+				}
+				
+				//creates a toggle for the bullseye
+				if(oi.getGamepad().getRawButton(8)) {
+					bullseyeOn = !bullseyeOn;
+					Timer.delay(0.5);
+				}
+				
+				//Draws a bullseye as long as the shooting camera is active
+				//and the driver wants the bullseye to be on
+				
+				if(bullseyeOn && rearCameraAllowed) {
+					Imgproc.circle(image, bullseyeCenter, bullseyeRadius, red, 2);
+					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x + bullseyeRadius, bullseyeCenter.y), red, 2);
+					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x - bullseyeRadius, bullseyeCenter.y), red, 2);
+					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x,  bullseyeCenter.y + bullseyeRadius), red, 2);
+					Imgproc.line(image, bullseyeCenter, new Point(bullseyeCenter.x, bullseyeCenter.y - bullseyeRadius), red, 2);
+				}
+				
+				//outputs the desired image to the switcher
+				outputStream.putFrame(image);
+				SmartDashboard.putBoolean("Rear Camera On?", rearCameraAllowed);
+				
+				}
         	});
         	t.start();
         	

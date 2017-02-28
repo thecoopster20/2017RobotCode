@@ -24,7 +24,7 @@ import org.opencv.objdetect.*;
 public class GripPipeline {
 
 	//Outputs
-	private Mat rgbThresholdOutput = new Mat();
+	private Mat hsvThresholdOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> convexHullsOutput = new ArrayList<MatOfPoint>();
@@ -37,15 +37,15 @@ public class GripPipeline {
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
 	public void process(Mat source0) {
-		// Step RGB_Threshold0:
-		Mat rgbThresholdInput = source0;
-		double[] rgbThresholdRed = {211.29943502824858, 255.0};
-		double[] rgbThresholdGreen = {237.71186440677965, 255.0};
-		double[] rgbThresholdBlue = {189.3998638689767, 254.71059833225354};
-		rgbThreshold(rgbThresholdInput, rgbThresholdRed, rgbThresholdGreen, rgbThresholdBlue, rgbThresholdOutput);
+		// Step HSV_Threshold0:
+		Mat hsvThresholdInput = source0;
+		double[] hsvThresholdHue = {0.0, 99.7860962566845};
+		double[] hsvThresholdSaturation = {144.0677966101695, 255.0};
+		double[] hsvThresholdValue = {98.44632768361582, 255.0};
+		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
 		// Step Find_Contours0:
-		Mat findContoursInput = rgbThresholdOutput;
+		Mat findContoursInput = hsvThresholdOutput;
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 
@@ -53,12 +53,12 @@ public class GripPipeline {
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
 		double filterContoursMinArea = 45.0;
 		double filterContoursMinPerimeter = 0.0;
-		double filterContoursMinWidth = 10.0;
-		double filterContoursMaxWidth = 197.0;
-		double filterContoursMinHeight = 0.0;
-		double filterContoursMaxHeight = 150.0;
-		double[] filterContoursSolidity = {62.14012456096828, 100.0};
-		double filterContoursMaxVertices = 1000000.0;
+		double filterContoursMinWidth = 5.0;
+		double filterContoursMaxWidth = 45.0;
+		double filterContoursMinHeight = 10.0;
+		double filterContoursMaxHeight = 90.0;
+		double[] filterContoursSolidity = {90.27079606732036, 100.0};
+		double filterContoursMaxVertices = 50.0;
 		double filterContoursMinVertices = 0.0;
 		double filterContoursMinRatio = 0.0;
 		double filterContoursMaxRatio = 10.0;
@@ -71,11 +71,11 @@ public class GripPipeline {
 	}
 
 	/**
-	 * This method is a generated getter for the output of a RGB_Threshold.
-	 * @return Mat output from RGB_Threshold.
+	 * This method is a generated getter for the output of a HSV_Threshold.
+	 * @return Mat output from HSV_Threshold.
 	 */
-	public Mat rgbThresholdOutput() {
-		return rgbThresholdOutput;
+	public Mat hsvThresholdOutput() {
+		return hsvThresholdOutput;
 	}
 
 	/**
@@ -104,18 +104,19 @@ public class GripPipeline {
 
 
 	/**
-	 * Segment an image based on color ranges.
-	 * @param input The image on which to perform the RGB threshold.
-	 * @param red The min and max red.
-	 * @param green The min and max green.
-	 * @param blue The min and max blue.
+	 * Segment an image based on hue, saturation, and value ranges.
+	 *
+	 * @param input The image on which to perform the HSL threshold.
+	 * @param hue The min and max hue
+	 * @param sat The min and max saturation
+	 * @param val The min and max value
 	 * @param output The image in which to store the output.
 	 */
-	private void rgbThreshold(Mat input, double[] red, double[] green, double[] blue,
-		Mat out) {
-		Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2RGB);
-		Core.inRange(out, new Scalar(red[0], green[0], blue[0]),
-			new Scalar(red[1], green[1], blue[1]), out);
+	private void hsvThreshold(Mat input, double[] hue, double[] sat, double[] val,
+	    Mat out) {
+		Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2HSV);
+		Core.inRange(out, new Scalar(hue[0], sat[0], val[0]),
+			new Scalar(hue[1], sat[1], val[1]), out);
 	}
 
 	/**
