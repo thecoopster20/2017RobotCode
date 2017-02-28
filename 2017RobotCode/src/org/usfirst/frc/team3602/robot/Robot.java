@@ -112,7 +112,6 @@ public class Robot extends IterativeRobot {
 		//creates a separate thread for the camera switcher to run on
 		Thread t = new Thread(() -> {
 			
-			
 			//has the robot default to the front camera and no bullseye
 			rearCameraAllowed = true;
 			bullseyeOn = false;
@@ -121,13 +120,11 @@ public class Robot extends IterativeRobot {
 			UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
 			frontCamera.setResolution(320, 240);
 			frontCamera.setFPS(30);
-			frontCamera.setExposureManual(3);
 			
 			//creates another camera and sets the res and FPS
 			UsbCamera rearCamera = CameraServer.getInstance().startAutomaticCapture(1);
 			rearCamera.setResolution(320, 240);
 			rearCamera.setFPS(30);
-			rearCamera.setExposureManual(3);
         
 			//creates two sinks that allow us to grab the images from each camera
 			//then creates a switcher stream that we feed whatever image we want to
