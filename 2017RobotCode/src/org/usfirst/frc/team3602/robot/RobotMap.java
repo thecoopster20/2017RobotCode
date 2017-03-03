@@ -83,7 +83,7 @@ public class RobotMap {
 		
 		//creates the shooter and feeder motors
 		shooterMotor = new CANTalon(8);
-		shooterFeeder = new CANTalon(12);
+		//shooterFeeder = new CANTalon(12);
 		shooterBeater = new Spark(1);
 		
 		//creates a motor controller to use as a light ring switch

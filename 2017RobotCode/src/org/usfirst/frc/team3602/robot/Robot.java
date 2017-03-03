@@ -12,16 +12,13 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.vision.VisionThread;
-
 import org.opencv.core.Mat;
-import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Point;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team3602.robot.commands.BaselineAuto;
 import org.usfirst.frc.team3602.robot.commands.CenterGearAuto;
 import org.usfirst.frc.team3602.robot.commands.LeftGearAuto;
 import org.usfirst.frc.team3602.robot.commands.RightGearAuto;
@@ -90,6 +87,7 @@ public class Robot extends IterativeRobot {
 		
 		//creates an auto selector button and adds the modes
 		SmartDashboard.putData("Auto Mode", chooser);
+		chooser.addDefault("Baseline", new BaselineAuto());
 		chooser.addObject("Center Gear", new CenterGearAuto());
 		chooser.addObject("Left Gear", new LeftGearAuto());
 		chooser.addObject("Right Gear", new RightGearAuto());

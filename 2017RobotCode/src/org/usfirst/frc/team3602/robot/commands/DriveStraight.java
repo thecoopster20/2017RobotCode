@@ -19,7 +19,7 @@ public class DriveStraight extends Command {
 	private final double kITurn = 0;
 	private final double kDTurn = 0;
 	
-	private final double baseDriveSpeed = 0.5;
+	private final double baseDriveSpeed = 0.75;
 	private double targetDistance;
 	private boolean invertDrive;
 	
@@ -70,10 +70,10 @@ public class DriveStraight extends Command {
 	@Override
 	protected void execute() {
 		if (invertDrive){
-			Robot.driveTrain.manualArcadeControl(-baseDriveSpeed, -pidTurnValue);
+			Robot.driveTrain.manualArcadeControl(baseDriveSpeed, -pidTurnValue);
 		}
 		else {
-			Robot.driveTrain.manualArcadeControl(baseDriveSpeed, pidTurnValue);
+			Robot.driveTrain.manualArcadeControl(-baseDriveSpeed, pidTurnValue);
 		}
 	}
 	

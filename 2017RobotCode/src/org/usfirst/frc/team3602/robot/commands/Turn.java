@@ -45,9 +45,7 @@ public class Turn extends Command {
     		
     		@Override
     		public void pidWrite(double d) {
-    			
-    			Robot.driveTrain.turn(d);
-    				
+    			Robot.driveTrain.turn(d);	
     		}
     	});
     	pid.setOutputRange(-0.75, 0.75);

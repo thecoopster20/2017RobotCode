@@ -12,7 +12,7 @@ public class AutoGear extends CommandGroup {
         addSequential(new VisionTurn());
         addSequential(new DriveStraight(60, false));
         addSequential(new GearHolderIn());
-        addSequential(new DriveStraight(6, false));
+        addSequential(new DriveStraight(6, true));
         addSequential(new GearHolderOut());
     }
 }

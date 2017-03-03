@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter extends Subsystem {
 	
 	private final CANTalon motor = RobotMap.shooterMotor;
-	private final CANTalon feeder = RobotMap.shooterFeeder;
+	//private final CANTalon feeder = RobotMap.shooterFeeder;
 	private final Spark beater = RobotMap.shooterBeater;
 	private double currentShootSpeed;
 	
@@ -29,14 +29,14 @@ public class Shooter extends Subsystem {
     
     public void setShooterSpeed(double shootSpeed) {
     	motor.set(shootSpeed);
-    	feeder.set(1);
+    	//feeder.set(1);
     	beater.set(1);
     	currentShootSpeed = shootSpeed;
     }
     
     public void stopShooter() {
     	motor.set(0);
-    	feeder.set(0);
+    	//feeder.set(0);
     	beater.set(0);
     }
     
