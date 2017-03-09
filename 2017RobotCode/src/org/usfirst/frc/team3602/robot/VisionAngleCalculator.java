@@ -11,10 +11,6 @@ public class VisionAngleCalculator {
 	
 	private double targetCenterX;
 	private double angle;
-	private double totalToAverage = 0;
-	private double averagedAngle = 0;
-	
-	
 	public VisionAngleCalculator() {
 		targetCenterX = 0;
 	}

@@ -13,23 +13,24 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveStraight extends Command {
 	private PIDController pidTurn;
-	private PIDController pidDist;
-	
-	private final double kPTurn = .005;
+	private final double kPTurn = .1;
 	private final double kITurn = 0;
 	private final double kDTurn = 0;
 	
-	private final double baseDriveSpeed = 0.75;
+	private double baseDriveSpeed;
 	private double targetDistance;
-	private boolean invertDrive;
 	
 	private double pidTurnValue;
 
-	public DriveStraight(double distance, boolean invert) {
+	public DriveStraight(double distance, double speed) {
+		Robot.driveTrain.reset();
 		requires(Robot.driveTrain);
 		
+		baseDriveSpeed = 0;
+		targetDistance = 0;
+		
+		baseDriveSpeed = speed;
 		targetDistance = distance;
-		invertDrive = invert;
 		
 		pidTurn = new PIDController(kPTurn, kITurn, kDTurn, new PIDSource() {
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
@@ -56,6 +57,7 @@ public class DriveStraight extends Command {
 		});
 		pidTurn.setAbsoluteTolerance(0.01);
 		pidTurn.setSetpoint(0);
+		
 	}
 
 	// Called just before this Command runs the first time
@@ -69,18 +71,18 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected void execute() {
-		if (invertDrive){
-			Robot.driveTrain.manualArcadeControl(baseDriveSpeed, -pidTurnValue);
-		}
-		else {
-			Robot.driveTrain.manualArcadeControl(-baseDriveSpeed, pidTurnValue);
-		}
+		Robot.driveTrain.manualArcadeControl(-baseDriveSpeed, -pidTurnValue);
 	}
 	
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return ((Robot.driveTrain.getDriveDistance() >= targetDistance) || !Robot.gearHolder.getCaptureSwitchState());
+		/*
+		double currentDriveDistance = Robot.driveTrain.getDriveDistance();
+		boolean gearSwitch = !Robot.gearHolder.getCaptureSwitchState();
+		return ((currentDriveDistance >= targetDistance) || gearSwitch);
+		*/
+		return (Robot.driveTrain.getDriveDistance() >= targetDistance);
 	}
 
 	// Called once after isFinished returns true
@@ -88,7 +90,7 @@ public class DriveStraight extends Command {
 	protected void end() {
 		// Stop PID and the wheels
 		pidTurn.disable();
-		Robot.driveTrain.manualControl(0, 0);
+		Robot.driveTrain.stop();
 	}
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3602.robot.triggers;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**

@@ -9,11 +9,10 @@ public class RightGearAuto extends CommandGroup {
 
 	private final double distanceUntilTurn = 42;
 	private final double turnTilVisionAngle = -20;
-	private final double backupDistance = 20;
 
     public RightGearAuto() {
         
-    	addSequential(new DriveStraight(distanceUntilTurn, false));
+    	addSequential(new DriveStraight(distanceUntilTurn, 0.75));
     	addSequential(new Turn(turnTilVisionAngle, false));
     	addSequential(new AutoGear());
     }

@@ -24,7 +24,7 @@ public class Turn extends Command {
     public Turn(double angle, boolean vision) {
     	requires(Robot.driveTrain);
     	visionAngle = new VisionAngleCalculator();
-    	pid = new PIDController(kP, kI, kP, new PIDSource() {
+    	pid = new PIDController(kP, kI, kD, new PIDSource() {
     		PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
     		
     		@Override

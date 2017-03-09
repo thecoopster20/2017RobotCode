@@ -45,9 +45,8 @@ public class OI {
 		JoystickButton PickupIn = new JoystickButton(gamepad, 2);
 		JoystickButton PickupOut = new JoystickButton(gamepad, 3);
 		JoystickButton Climb = new JoystickButton(gamepad, 5);
-		JoystickButton Vision = new JoystickButton(gamepad, 1);
-		
 		//assigns each button a command and when to execute the command
+		
 		FIRE.toggleWhenPressed(new FireShooter());
 		PickupIn.toggleWhenPressed(new PickupIn());
 		PickupOut.toggleWhenPressed(new PickupOut());
@@ -57,8 +56,8 @@ public class OI {
 		//assigns custom triggers a command and when to execute the command
 		new TriggerToButton(gamepad, 3).whenActive(new GearHolderIn());
 		new TriggerToButton(gamepad, 2).whenActive(new GearHolderOut());
-		new PovToButton(gamepad, 90).whenActive(new Turn(90, false));
-		new PovToButton(gamepad, 180).whenActive(new DriveStraight(30, false));
+		new PovToButton(gamepad, 0).whenActive(new DriveStraight(60, 0.75));
+		new PovToButton(gamepad, 180).whenActive(new DriveStraight(60, -0.75));
 		//new PovToButton(gamepad, 0).whenActive(new VisionTurn());
 	}
 	

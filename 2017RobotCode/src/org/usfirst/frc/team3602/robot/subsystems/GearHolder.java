@@ -20,11 +20,6 @@ public class GearHolder extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	
-	public GearHolder() {
-		screw.ConfigFwdLimitSwitchNormallyOpen(true);
-		screw.ConfigRevLimitSwitchNormallyOpen(true);
-	}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

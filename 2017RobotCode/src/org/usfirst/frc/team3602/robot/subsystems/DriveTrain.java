@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3602.robot.subsystems;
 
-import org.usfirst.frc.team3602.robot.Robot;
 import org.usfirst.frc.team3602.robot.RobotMap;
 import org.usfirst.frc.team3602.robot.commands.DriverControl;
 
@@ -32,7 +31,7 @@ public class DriveTrain extends Subsystem {
 	private double moveAxisSpeed;
 	private double rotateAxisSpeed;
 	private final double deadband = 0.1;
-	
+	private double avgDistance;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -69,13 +68,7 @@ public class DriveTrain extends Subsystem {
     	else {
     		rotateAxisSpeed = 0;
     	}
-    	
-    	if(Robot.rearCameraAllowed == true) {
-    		drive.arcadeDrive(moveAxisSpeed, -rotateAxisSpeed);
-    	}
-    	else {
-    		drive.arcadeDrive(-moveAxisSpeed, -rotateAxisSpeed);
-    	}
+   		drive.arcadeDrive(moveAxisSpeed, -rotateAxisSpeed);
     }
     
     public void manualControl(double leftSpeed, double rightSpeed) {
@@ -96,17 +89,17 @@ public class DriveTrain extends Subsystem {
     }
     
     public double getLeftEnc() {
-    	return leftEncoder.getDistance();
+    	return Math.abs(leftEncoder.getDistance());
     }
     
     public double getRightEnc() {
-    	return rightEncoder.getDistance();
+    	return Math.abs(rightEncoder.getDistance());
     }
     
     public double getDriveDistance() {
     	//return the average of the two encoder's distances
     	//take the absolute value to ensure no negative values
-    	double avgDistance = (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
+    	avgDistance = (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
     	return Math.abs(avgDistance);		
     }
     
@@ -127,6 +120,11 @@ public class DriveTrain extends Subsystem {
     	leftEncoder.reset();
     	rightEncoder.reset();
     	gyro.reset();
+    	avgDistance = 0;
+    }
+    
+    public void stop() {
+    	drive.arcadeDrive(0, 0);
     }
     
     public void log() {
