@@ -123,11 +123,12 @@ public class Main {
 			NetworkTable.getTable("GRIP").putNumber("centerX", centerXAvg);
 			NetworkTable.getTable("GRIP").putNumber("centerY", centerYAvg);
 			NetworkTable.getTable("GRIP").putNumber("area", area);
-			Imgproc.rectangle(inputImage, r1.tl(), r2.br(), new Scalar(0, 0, 5));
+			NetworkTable.getTable("GRIP").putBoolean("Is Connected", true);
 			//SmartDashboard.putString("Vision State", "Two or more targets found, processing");
 		}
       else {
     	 // SmartDashboard.putString("Vision State", "Less than two targets found, not processing");
+    	  NetworkTable.getTable("GRIP").putBoolean("Is Connected", false);
       }
       
       
