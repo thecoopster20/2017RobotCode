@@ -1,15 +1,25 @@
 package org.usfirst.frc.team3602.robot.commands;
 
+import org.usfirst.frc.team3602.robot.VisionAngleCalculator;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
 public class VisionTurn extends CommandGroup {
-
+	
+	private double targAngle = 0;
+	private VisionAngleCalculator calc;
+	
     public VisionTurn() {
-       addSequential(new LightOn());
-       addSequential(new Turn(0, true));
-       addSequential(new LightOff());
-    }
+    	
+    	targAngle = 0;
+    	calc = new VisionAngleCalculator();
+    	targAngle = calc.getHorizontalAngle();
+    	
+    	addSequential(new LightOn());
+    	addSequential(new Turn(targAngle));
+    	addSequential(new LightOff());
+    }	
 }

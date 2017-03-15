@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class VisionAngleCalculator {
 
-	private final double fieldOfView = 60;
+	private final double fieldOfView = 53;
 	private final double cameraWidth = 360;
 	private final double focalLength = cameraWidth / (2*Math.tan(fieldOfView));
 	private final double imageCenterX = 160;

@@ -1,13 +1,14 @@
 package org.usfirst.frc.team3602.robot;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -19,7 +20,6 @@ public class RobotMap {
 	
 	//Create variables for motors, sensors, etc.
 	
-	//Drive Motors and Sensors
 	public static CANTalon driveLeftMotor;
 	public static CANTalon driveRightMotor;
 	public static CANTalon driveLeftSlaveMotor;
@@ -27,22 +27,12 @@ public class RobotMap {
 	public static RobotDrive driveTrain;
 	public static Encoder driveLeftEncoder;
 	public static Encoder driveRightEncoder;
-	public static ADXRS450_Gyro driveGyro;
 	public static Spark lightSwitchController;
 	public static CANTalon ballPickupMotor;
 	public static CANTalon robotLiftMotor;
-	
-	//gear holder actuator
-	public static CANTalon gearHolderScrew;
-	public static DigitalInput gearHolderInSwitch;
-	public static DigitalInput gearHolderOutSwitch;
-	public static DigitalInput gearHolderCaptureSwitch;
-	
-	//shooter motor
 	public static CANTalon shooterMotor;
-	public static CANTalon shooterFeeder;
-	public static Spark shooterBeater;
-	
+	public static Spark shooterFeeder;
+	public static AHRS gyro;
 	
 	//Assign motors and such their ports and other initial properties
 	public static void init() {
@@ -72,18 +62,19 @@ public class RobotMap {
 		driveRightEncoder = new Encoder(1, 2, true, EncodingType.k4X);                                    
 		
 		//creates a gyro for getting the heading of the robot.
-		driveGyro = new ADXRS450_Gyro();
-		
-		//creates our screw motor, switches, and the extra gear sensing switch
-		gearHolderScrew = new CANTalon(11);
-		gearHolderInSwitch = new DigitalInput(5);
-		gearHolderOutSwitch = new DigitalInput(6);
-		gearHolderCaptureSwitch = new DigitalInput(7);
+		gyro = new AHRS(SPI.Port.kMXP);
 		
 		//creates the shooter and feeder motors
 		shooterMotor = new CANTalon(8);
-		//shooterFeeder = new CANTalon(12);
-		shooterBeater = new Spark(1);
+		shooterMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+        shooterMotor.reverseSensor(false);
+        shooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
+        shooterMotor.configPeakOutputVoltage(+12.0f, -12.0f);
+        shooterMotor.setProfile(0);
+        shooterMotor.setF(0.027);
+        shooterMotor.setP(0.05);
+        shooterMotor.setI(0);
+		shooterFeeder = new Spark(1);
 		
 		//creates a motor controller to use as a light ring switch
 		lightSwitchController = new Spark(0);

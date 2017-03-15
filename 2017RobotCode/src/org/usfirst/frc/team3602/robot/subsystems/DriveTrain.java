@@ -3,6 +3,8 @@ package org.usfirst.frc.team3602.robot.subsystems;
 import org.usfirst.frc.team3602.robot.RobotMap;
 import org.usfirst.frc.team3602.robot.commands.DriverControl;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,7 +21,7 @@ public class DriveTrain extends Subsystem {
 	private final RobotDrive drive = RobotMap.driveTrain;
 	private final Encoder leftEncoder = RobotMap.driveLeftEncoder;
 	private final Encoder rightEncoder = RobotMap.driveRightEncoder;
-	private final ADXRS450_Gyro gyro = RobotMap.driveGyro;
+	private final AHRS gyro = RobotMap.gyro;
 	
 	private final double driveWheelDiameter = 4;
 	private final double encoderCountsPerRev = 360;
@@ -98,9 +100,8 @@ public class DriveTrain extends Subsystem {
     
     public double getDriveDistance() {
     	//return the average of the two encoder's distances
-    	//take the absolute value to ensure no negative values
     	avgDistance = (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
-    	return Math.abs(avgDistance);		
+    	return avgDistance;		
     }
     
     public double getDriveRate() {
@@ -119,8 +120,7 @@ public class DriveTrain extends Subsystem {
     	drive.tankDrive(0, 0);
     	leftEncoder.reset();
     	rightEncoder.reset();
-    	gyro.reset();
-    	avgDistance = 0;
+    	gyro.zeroYaw();
     }
     
     public void stop() {
@@ -135,7 +135,6 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putNumber("Left Encoder Rate(in/s)", leftEncoder.getRate());
     	SmartDashboard.putNumber("Right Encoder Rate(in/s)", rightEncoder.getRate());
     	SmartDashboard.putNumber("Average Encoder Rate", getDriveRate());
-    	SmartDashboard.putNumber("Gyro Angle", (int)gyro.getAngle());
     }
 }
 

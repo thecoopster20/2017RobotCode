@@ -1,9 +1,6 @@
 package org.usfirst.frc.team3602.robot;
 
 import org.usfirst.frc.team3602.robot.commands.DriveStraight;
-import org.usfirst.frc.team3602.robot.commands.DropGear;
-import org.usfirst.frc.team3602.robot.commands.GearHolderIn;
-import org.usfirst.frc.team3602.robot.commands.GearHolderOut;
 import org.usfirst.frc.team3602.robot.commands.PickupIn;
 import org.usfirst.frc.team3602.robot.commands.PickupOut;
 import org.usfirst.frc.team3602.robot.commands.ResetDriveSensors;
@@ -34,10 +31,7 @@ public class OI {
 		SmartDashboard.putData("Reset Drive Sensors", new ResetDriveSensors());
 		SmartDashboard.putData("Pickup In", new PickupIn());
 		SmartDashboard.putData("Pickup Out", new PickupOut());
-		SmartDashboard.putData("Gear Holder In", new GearHolderIn());
-		SmartDashboard.putData("Gear Holder Out", new GearHolderOut());
 		SmartDashboard.putData("Lift That Bot", new RobotClimb(5));
-		SmartDashboard.putData("Drop Gear", new DropGear());
 		//SmartDashboard.putData("Vision Turn", new VisionTurn());
 		
 		//creates buttons to call commands from the joysticks
@@ -54,10 +48,8 @@ public class OI {
 		//Vision.whenActive(new VisionTurn());
 		
 		//assigns custom triggers a command and when to execute the command
-		new TriggerToButton(gamepad, 3).whenActive(new GearHolderIn());
-		new TriggerToButton(gamepad, 2).whenActive(new GearHolderOut());
-		new PovToButton(gamepad, 0).whenActive(new DriveStraight(60, 0.75));
-		new PovToButton(gamepad, 180).whenActive(new DriveStraight(60, -0.75));
+		new PovToButton(gamepad, 0).whenActive(new DriveStraight(60));
+		new PovToButton(gamepad, 180).whenActive(new DriveStraight(-60));
 		//new PovToButton(gamepad, 0).whenActive(new VisionTurn());
 	}
 	

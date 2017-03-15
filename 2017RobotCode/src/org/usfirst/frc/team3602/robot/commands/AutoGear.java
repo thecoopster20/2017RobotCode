@@ -10,6 +10,6 @@ public class AutoGear extends CommandGroup {
 
     public AutoGear() {
         addSequential(new VisionTurn());
-        addSequential(new DriveStraight(60, 0.75));
+        addSequential(new DriveStraight(60));
     }
 }

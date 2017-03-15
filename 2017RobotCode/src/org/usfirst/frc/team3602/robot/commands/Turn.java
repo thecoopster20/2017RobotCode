@@ -14,76 +14,68 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class Turn extends Command {
-	private PIDController pid;
-	private VisionAngleCalculator visionAngle;
 	
-	private final double kP = 0.005;
-	private final double kI = 0;
-	private final double kD = 0;
+	private PIDController pidTurn;
+	private double pidTurnValue;
+	private double kPTurn = 0.1;
+	private double kITurn = 0.005;
+	private double kDTurn = 0;
 
-    public Turn(double angle, boolean vision) {
+    public Turn(double desiredAngle) {
     	requires(Robot.driveTrain);
-    	visionAngle = new VisionAngleCalculator();
-    	pid = new PIDController(kP, kI, kD, new PIDSource() {
-    		PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
-    		
-    		@Override
-    		public double pidGet() {
-    			return Robot.driveTrain.getDriveHeading();
-    		}
-    		
-    		@Override
-    		public void setPIDSourceType(PIDSourceType pidSource) {
-    			m_sourceType = pidSource;
-    		}
-    		
-    		@Override
-    		public PIDSourceType getPIDSourceType() {
-    			return m_sourceType;
-    		}
-    	}, new PIDOutput() {
-    		
-    		@Override
-    		public void pidWrite(double d) {
-    			Robot.driveTrain.turn(d);	
-    		}
-    	});
-    	pid.setOutputRange(-0.75, 0.75);
-    	pid.setAbsoluteTolerance(0.1);
-    	
-    	if (vision) {
-    		pid.setSetpoint(visionAngle.getHorizontalAngle());
-    		SmartDashboard.putNumber("Vision Angle", visionAngle.getHorizontalAngle());
+    	pidTurn = new PIDController(kPTurn, kITurn, kDTurn, new PIDSource() {
+			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
-    	}
-    	else {
-    		pid.setSetpoint(angle);
-    	}
-    	
+			@Override
+			public double pidGet() {
+				return Robot.driveTrain.getDriveHeading();
+			}
+
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+				m_sourceType = pidSource;
+			}
+
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				return m_sourceType;
+			}
+		}, new PIDOutput() {
+			@Override
+			public void pidWrite(double t) {
+				pidTurnValue = t;
+			}
+		});
+		pidTurn.setAbsoluteTolerance(0.1);
+		pidTurn.setSetpoint(desiredAngle);
+		pidTurn.setInputRange(-180, 180);
+		pidTurn.setOutputRange(-0.5, 0.5);
     }
 
-    // Called just before this Command runs the first time
-    
-    @Override
+    // Called just before this Command run the first time
     protected void initialize() {
+    	pidTurn.reset();
     	Robot.driveTrain.reset();
-    	pid.reset();
-    	pid.enable();
+    	pidTurn.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.driveTrain.manualArcadeControl(0, -pidTurnValue);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return pid.onTarget();
+        return Math.abs(pidTurn.getError()) <= 0.1;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	pid.disable();
-    	Robot.driveTrain.manualControl(0, 0);
+    	pidTurn.reset();
+    	SmartDashboard.putNumber("Last Command Angle", Robot.driveTrain.getDriveHeading());
+    	Robot.driveTrain.reset();
+    	Robot.driveTrain.stop();
+    	
     }
 
     // Called when another command which requires one or more of the same

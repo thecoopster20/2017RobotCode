@@ -12,8 +12,8 @@ public class RightGearAuto extends CommandGroup {
 
     public RightGearAuto() {
         
-    	addSequential(new DriveStraight(distanceUntilTurn, 0.75));
-    	addSequential(new Turn(turnTilVisionAngle, false));
+    	addSequential(new DriveStraight(distanceUntilTurn));
+    	addSequential(new Turn(turnTilVisionAngle));
     	addSequential(new AutoGear());
     }
 }

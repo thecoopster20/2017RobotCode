@@ -10,6 +10,6 @@ public class CenterGearAuto extends CommandGroup {
 	
 	
     public CenterGearAuto() {
-    	addSequential(new DriveStraight(120, 0.5), 7);
+    	addSequential(new DriveStraight(120), 7);
     }
 }

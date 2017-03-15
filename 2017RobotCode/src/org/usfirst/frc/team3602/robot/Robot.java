@@ -24,7 +24,6 @@ import org.usfirst.frc.team3602.robot.commands.LeftGearAuto;
 import org.usfirst.frc.team3602.robot.commands.RightGearAuto;
 import org.usfirst.frc.team3602.robot.subsystems.BallPickup;
 import org.usfirst.frc.team3602.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team3602.robot.subsystems.GearHolder;
 import org.usfirst.frc.team3602.robot.subsystems.LightSwitch;
 import org.usfirst.frc.team3602.robot.subsystems.RobotLifter;
 import org.usfirst.frc.team3602.robot.subsystems.Shooter;
@@ -42,7 +41,6 @@ public class Robot extends IterativeRobot {
 	//subsystem variables
 	public static DriveTrain driveTrain;
 	public static OI oi;
-	public static GearHolder gearHolder;
 	public static Shooter shooter;
 	public static LightSwitch lightSwitch;
 	public static BallPickup ballPickup;
@@ -73,7 +71,6 @@ public class Robot extends IterativeRobot {
 		//initializes all of the subsystems 
 		RobotMap.init();
 		driveTrain = new DriveTrain();
-		gearHolder = new GearHolder();
 		shooter = new Shooter();
 		lightSwitch = new LightSwitch();
 		ballPickup = new BallPickup();
@@ -101,7 +98,6 @@ public class Robot extends IterativeRobot {
 		//outputs all of the subsystems to the dash
 		SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putData(driveTrain);
-		SmartDashboard.putData(gearHolder);
 		SmartDashboard.putData(shooter);
 		SmartDashboard.putData(lightSwitch);
 		SmartDashboard.putData(ballPickup);
@@ -263,7 +259,6 @@ public class Robot extends IterativeRobot {
 	//calls each subsystem's log function for dash writing functionality
 	public void log() {
 		driveTrain.log();
-		gearHolder.log();
 		shooter.log();
 	}
 }
