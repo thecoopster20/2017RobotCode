@@ -30,7 +30,7 @@ public class FireShooter extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//Robot.shooter.fireShooter(1);
-    	if(RobotMap.shooterMotor.getSpeed() >= 5400){
+    	if(RobotMap.shooterMotor.getSpeed() >= 5450){
     		Robot.shooter.runFeeder();
     	}
     	else {
