@@ -1,18 +1,14 @@
 package org.usfirst.frc.team3602.robot.commands;
 
 import org.usfirst.frc.team3602.robot.Robot;
-import org.usfirst.frc.team3602.robot.VisionAngleCalculator;
 
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
 public class Turn extends Command {
 	
 	private PIDController pidTurn;
