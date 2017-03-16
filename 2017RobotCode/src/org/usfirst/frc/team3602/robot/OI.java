@@ -9,6 +9,8 @@ import org.usfirst.frc.team3602.robot.commands.Turn;
 import org.usfirst.frc.team3602.robot.triggers.PovToButton;
 import org.usfirst.frc.team3602.robot.triggers.TriggerToButton;
 import org.usfirst.frc.team3602.robot.commands.FireShooter;
+import org.usfirst.frc.team3602.robot.commands.LightOff;
+import org.usfirst.frc.team3602.robot.commands.LightOn;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

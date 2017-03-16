@@ -106,6 +106,11 @@ public class Robot extends IterativeRobot {
 		//creates a separate thread for the camera switcher to run on
 		Thread t = new Thread(() -> {
 			
+			UsbCamera oneDamnCamera = CameraServer.getInstance().startAutomaticCapture(0);
+			oneDamnCamera.setFPS(30);
+			oneDamnCamera.setResolution(320, 240);
+			
+			/*
 			//has the robot default to the front camera and no bullseye
 			rearCameraAllowed = true;
 			bullseyeOn = false;
@@ -122,8 +127,10 @@ public class Robot extends IterativeRobot {
         
 			//creates two sinks that allow us to grab the images from each camera
 			//then creates a switcher stream that we feed whatever image we want to
-			CvSink cvSink1 = CameraServer.getInstance().getVideo(rearCamera);
-			CvSink cvSink2 = CameraServer.getInstance().getVideo(frontCamera);
+			CvSink cvSink1 = new CvSink("frontCamera");
+			cvSink1.setSource(frontCamera);
+			CvSink cvSink2 = new CvSink("rearCamera");
+			cvSink2.setSource(rearCamera);
 			CvSource outputStream = CameraServer.getInstance().putVideo("Switcher", 320, 240);
         
 			//creates a new mat for image capture
@@ -169,6 +176,7 @@ public class Robot extends IterativeRobot {
 				SmartDashboard.putBoolean("Rear Camera On?", rearCameraAllowed);
 				
 				}
+				*/
         	});
         	t.start();
         	
@@ -189,6 +197,7 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		log();
+		lightSwitch.lightOff();
 		driveTrain.reset();
 	}
 
@@ -227,6 +236,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		log();
+		lightSwitch.lightOn();
 	}
 
 	@Override
@@ -246,6 +256,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		log();
+		lightSwitch.lightOn();
 	}
 
 	/**
@@ -254,6 +265,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+		lightSwitch.lightOn();
 	}
 	
 	//calls each subsystem's log function for dash writing functionality

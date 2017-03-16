@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -18,20 +19,27 @@ import edu.wpi.first.wpilibj.CounterBase.EncodingType;
  */
 public class RobotMap {
 	
-	//Create variables for motors, sensors, etc.
-	
+	//Create variables for motors, sensors, etc.	
 	public static CANTalon driveLeftMotor;
 	public static CANTalon driveRightMotor;
 	public static CANTalon driveLeftSlaveMotor;
 	public static CANTalon driveRightSlaveMotor;
 	public static RobotDrive driveTrain;
+	
 	public static Encoder driveLeftEncoder;
 	public static Encoder driveRightEncoder;
+	
 	public static Spark lightSwitchController;
+	
 	public static CANTalon ballPickupMotor;
+	
+	public static DigitalInput gearSwitch;
+	
 	public static CANTalon robotLiftMotor;
+	
 	public static CANTalon shooterMotor;
-	public static Spark shooterFeeder;
+	public static CANTalon shooterFeeder;
+	
 	public static AHRS gyro;
 	
 	//Assign motors and such their ports and other initial properties
@@ -64,6 +72,8 @@ public class RobotMap {
 		//creates a gyro for getting the heading of the robot.
 		gyro = new AHRS(SPI.Port.kMXP);
 		
+		gearSwitch = new DigitalInput(5);
+		
 		//creates the shooter and feeder motors
 		shooterMotor = new CANTalon(8);
 		shooterMotor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
@@ -74,7 +84,7 @@ public class RobotMap {
         shooterMotor.setF(0.027);
         shooterMotor.setP(0.05);
         shooterMotor.setI(0);
-		shooterFeeder = new Spark(1);
+		shooterFeeder = new CANTalon(11);
 		
 		//creates a motor controller to use as a light ring switch
 		lightSwitchController = new Spark(0);

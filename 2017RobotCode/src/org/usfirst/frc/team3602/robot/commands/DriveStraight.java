@@ -26,8 +26,11 @@ public class DriveStraight extends Command {
 	private final double kPDist = .1;
 	private final double kIDist = 0;
 	private final double kDDist = 0;
+	private final double distanceTolerance = 0.1;
+	private final double angleTolerance = 0.1;
 
     public DriveStraight(double distance) {
+    	distance = 0;
         this.distance = distance;
         requires(Robot.driveTrain);
         
@@ -54,10 +57,10 @@ public class DriveStraight extends Command {
 				pidTurnValue = t;
 			}
 		});
-		pidTurn.setAbsoluteTolerance(0.1);
 		pidTurn.setSetpoint(0);
 		pidTurn.setOutputRange(-0.75, 0.75);
 		
+		/*
 		pidDist = new PIDController(kPDist, kIDist, kDDist, new PIDSource() {
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
@@ -81,33 +84,36 @@ public class DriveStraight extends Command {
 				pidDistValue = t;
 			}
 		});
-		pidTurn.setAbsoluteTolerance(0.1);
 		pidTurn.setSetpoint(distance);
 		pidTurn.setOutputRange(-0.75, 0.75);
+		*/
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	pidTurn.reset();
-    	pidDist.reset();
+    	//pidDist.reset();
     	Robot.driveTrain.reset();
     	pidTurn.enable();
-    	pidDist.enable();
+    	//pidDist.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.manualArcadeControl(pidDistValue, -pidTurnValue);
+    	Robot.driveTrain.manualArcadeControl(0.75, -pidTurnValue);
     }
     
     protected boolean isFinished() {
-    	return Math.abs(pidDist.getError()) <= 0.1;
+    	//boolean distanceCheck = Math.abs(pidDist.getError()) <= 0.1;
+    	boolean distanceCheck = Math.abs(Robot.driveTrain.getDriveDistance()) <= distanceTolerance;
+    	boolean switchCheck = Robot.driveTrain.getGearSwitch();
+    	return switchCheck;
     }
 
     // Called once after timeout
     protected void end() {
     	pidTurn.disable();
-    	pidDist.disable();
+    	//pidDist.disable();
     	SmartDashboard.putNumber("Last Command Distance", Robot.driveTrain.getDriveDistance());
     	Robot.driveTrain.reset();
     }
