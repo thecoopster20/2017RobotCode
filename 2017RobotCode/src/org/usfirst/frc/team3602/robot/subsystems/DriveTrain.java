@@ -6,6 +6,7 @@ import org.usfirst.frc.team3602.robot.commands.DriverControl;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -22,6 +23,7 @@ public class DriveTrain extends Subsystem {
 	private final Encoder leftEncoder = RobotMap.driveLeftEncoder;
 	private final Encoder rightEncoder = RobotMap.driveRightEncoder;
 	private final AHRS gyro = RobotMap.gyro;
+	private final DigitalInput gearSwitch = RobotMap.gearSwitch;
 	
 	private final double driveWheelDiameter = 4;
 	private final double encoderCountsPerRev = 360;
@@ -115,6 +117,10 @@ public class DriveTrain extends Subsystem {
     	return gyro.getAngle();
     }
     
+    public boolean getGearSwitch() {
+    	return gearSwitch.get();
+    }
+    
     public void reset() {
     	//zero encoders and make sure robot is stationary prior to the reset
     	drive.tankDrive(0, 0);
@@ -135,6 +141,7 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putNumber("Left Encoder Rate(in/s)", leftEncoder.getRate());
     	SmartDashboard.putNumber("Right Encoder Rate(in/s)", rightEncoder.getRate());
     	SmartDashboard.putNumber("Average Encoder Rate", getDriveRate());
+    	SmartDashboard.putBoolean("Gear Switch", getGearSwitch());
     }
 }
 

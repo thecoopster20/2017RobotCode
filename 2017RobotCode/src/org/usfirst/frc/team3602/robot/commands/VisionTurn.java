@@ -19,6 +19,7 @@ public class VisionTurn extends CommandGroup {
     	targAngle = calc.getHorizontalAngle();
     	
     	addSequential(new LightOn());
+    	addSequential(new WaitCommand(2));
     	addSequential(new Turn(targAngle));
     	addSequential(new LightOff());
     }	

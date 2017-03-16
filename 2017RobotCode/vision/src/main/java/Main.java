@@ -53,13 +53,13 @@ public class Main {
     // This is our camera name from the robot. this can be set in your robot code with the following command
     // CameraServer.getInstance().startAutomaticCapture("YourCameraNameHere");
     // "USB Camera 0" is the default if no string is specified
-    String cameraName = "Switcher";
+    String cameraName = "USB Camera 0";
     HttpCamera camera = setHttpCamera(cameraName, inputStream);
     // It is possible for the camera to be null. If it is, that means no camera could
     // be found using NetworkTables to connect to. Create an HttpCamera by giving a specified stream
     // Note if this happens, no restream will be created
    if (camera == null) {
-     camera = new HttpCamera("CoprocessorCamera", "http://roborio-3602-frc.local:1183/?action=stream");
+     camera = new HttpCamera("CoprocessorCamera", "http://roborio-3602-frc.local:1181/?action=stream");
      inputStream.setSource(camera);
    }
     

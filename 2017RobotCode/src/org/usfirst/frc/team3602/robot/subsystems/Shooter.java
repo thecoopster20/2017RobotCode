@@ -14,8 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter extends Subsystem {
 	
 	private final CANTalon motor = RobotMap.shooterMotor;
-	private final Spark feeder = RobotMap.shooterFeeder;
-	private double currentShootSpeed;
+	private final CANTalon feeder = RobotMap.shooterFeeder;
 	
 
     // Put methods for controlling this subsystem
